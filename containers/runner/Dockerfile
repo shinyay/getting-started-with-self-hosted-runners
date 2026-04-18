@@ -47,6 +47,10 @@ RUN chmod +x ./entrypoint.sh
 # Set ownership
 RUN chown -R runner:runner /home/runner
 
+# Pre-create hostedtoolcache for actions that hardcode this path
+# (e.g. ruby/setup-ruby, which ignores RUNNER_TOOL_CACHE).
+RUN mkdir -p /opt/hostedtoolcache && chown -R runner:runner /opt/hostedtoolcache
+
 # Switch to non-root user
 USER runner
 

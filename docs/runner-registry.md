@@ -21,6 +21,16 @@ This document tracks which ACI containers are running self-hosted runners and wh
 | Container Registry | `shinyayacr202604.azurecr.io` | `eastus` |
 | Runner Image | `shinyayacr202604.azurecr.io/ghrunner:latest` | — |
 
+### Image versions
+
+| Tag | Changes |
+|-----|---------|
+| `v0.2.0` (current `latest`) | Pre-creates `/opt/hostedtoolcache` owned by the `runner` user so `ruby/setup-ruby@v1` (which hard-codes this path and ignores `RUNNER_TOOL_CACHE`) can install toolchains. |
+| `v0.1.0` | Initial image. |
+
+> [!NOTE]
+> Existing ACI containers keep their original image snapshot and are not affected when a new `:latest` is pushed. To apply a new image, recreate the container (see **How to Redeploy a Crashed Runner**).
+
 ---
 
 ## How to Add a New Runner for a Repository
