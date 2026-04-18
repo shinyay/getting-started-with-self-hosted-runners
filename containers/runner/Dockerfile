@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     ca-certificates \
     apt-transport-https \
+    libyaml-0-2 \
     && rm -rf /var/lib/apt/lists/*
 
 # Create non-root runner user
