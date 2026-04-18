@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "sshPublicKey": { "value": "<YOUR_SSH_PUBLIC_KEY>" },
+    "githubUrl": { "value": "https://github.com/YOUR-ORG/YOUR-REPO" },
+    "runnerToken": { "value": "<REGISTRATION_TOKEN>" },
+    "runnerName": { "value": "ghrunner-vm-01" },
+    "runnerLabels": { "value": "azure,linux,x64,vm" },
+    "allowedSshSource": { "value": "<YOUR_IP>/32" }
+  }
+}

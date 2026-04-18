@@ -1,0 +1,35 @@
+name: CI — Self-Hosted Runner
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: [self-hosted, linux, azure]
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: System Info
+        run: |
+          echo "Runner: ${RUNNER_NAME}"
+          echo "OS: $(lsb_release -ds 2>/dev/null || cat /etc/os-release | grep PRETTY_NAME | cut -d= -f2)"
+          echo "Arch: $(uname -m)"
+          echo "Docker: $(docker --version 2>/dev/null || echo 'not available')"
+
+      - name: Run Tests
+        run: |
+          echo "Running tests..."
+          # Replace with your actual test commands
+          echo "All tests passed ✅"
+
+      - name: Build
+        run: |
+          echo "Building project..."
+          # Replace with your actual build commands
+          echo "Build complete ✅"

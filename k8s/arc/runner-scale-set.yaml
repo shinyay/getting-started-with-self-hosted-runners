@@ -1,0 +1,30 @@
+# This file is for reference — ARC v0.9+ deploys via Helm, not raw CRDs.
+# The actual RunnerScaleSet is created by the gha-runner-scale-set Helm chart.
+#
+# If you need to inspect the generated resources:
+#   kubectl get runnerscalesets -n arc-runners
+#   kubectl describe runnerscaleset <name> -n arc-runners
+
+apiVersion: actions.github.com/v1alpha1
+kind: AutoscalingRunnerSet
+metadata:
+  name: arc-runner-set
+  namespace: arc-runners
+spec:
+  githubConfigUrl: "https://github.com/YOUR-ORG"
+  githubConfigSecret: github-app-secret
+  runnerGroup: "Default"
+  minRunners: 0
+  maxRunners: 10
+  template:
+    spec:
+      containers:
+        - name: runner
+          image: "ghcr.io/actions/actions-runner:latest"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "2000m"
+              memory: "4Gi"

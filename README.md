@@ -1,376 +1,104 @@
-# Project Title
+# Getting Started with Self-Hosted Runners on Azure
 
-<!-- TEMPLATE: Replace with your project name. Keep it concise. -->
-
-> **One compelling sentence that makes the reader want to keep scrolling.**
-
-<!-- TEMPLATE: Write a tagline that captures the VALUE of this project.
-     Examples from real repos:
-     - "Stop vibe coding. Start specifying."
-     - "Local Markdown archive of GitHub Changelog with AI-generated deep-dive analysis"
-     Ask yourself: if someone reads ONLY this line, do they understand why this project exists?
--->
-
-<!-- TEMPLATE: Pick the badges relevant to your project. Delete the rest. -->
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/shinyay/REPO_NAME)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://gist.githubusercontent.com/shinyay/56e54ee4c0e22db8211e05e70a63247e/raw/f3ac65a05ed8c8ea70b653875ccac0c6dbc10ba1/LICENSE)
+[![GitHub Enterprise Cloud](https://img.shields.io/badge/GitHub-Enterprise%20Cloud-6e40c9?logo=github)](https://docs.github.com/en/enterprise-cloud@latest)
 
-<!-- TEMPLATE: Add any of these as needed:
-[![CI](https://github.com/shinyay/REPO_NAME/actions/workflows/ci.yml/badge.svg)](https://github.com/shinyay/REPO_NAME/actions/workflows/ci.yml)
-[![GitHub release](https://img.shields.io/github/v/release/shinyay/REPO_NAME)](https://github.com/shinyay/REPO_NAME/releases)
--->
+> **From zero to production-ready self-hosted runners — on VMs, containers, and Kubernetes.**
 
-A 1–2 sentence **elevator pitch**: what this project IS, who it's FOR, and why it MATTERS. Include a key metric if possible (e.g., "18 scenarios", "8-level curriculum", "5-layer pipeline").
+A comprehensive, multi-level tutorial (beginner → advanced) for setting up GitHub Actions self-hosted runners on Azure. Covers Azure VMs, Container Instances, and AKS with Actions Runner Controller — with hands-on Infrastructure as Code, security hardening, and enterprise-grade configurations.
 
-<!-- TEMPLATE: The elevator pitch should answer three questions in ≤2 sentences:
-     1. WHAT is this? (tool / workshop / library / pipeline / template)
-     2. WHO is this for? (developers / DevOps / learners / teams)
-     3. WHY should they care? (saves time / teaches skills / automates X)
--->
-
-> [!NOTE]
-> **Status/Version disclaimer** — e.g., "This project is built against v1.2.3 as of 2026-02-21. APIs may change."
-
-<!-- TEMPLATE: DELETE this alert if your project is stable. Keep it for preview/evolving tools.
-     GitHub supports these alert types — use sparingly (max 2-3 per README):
-     > [!NOTE]      — Useful information the reader should know
-     > [!TIP]       — Helpful advice to save time or prevent mistakes
-     > [!IMPORTANT] — Key information the reader must not miss
-     > [!WARNING]   — Urgent attention needed to avoid problems
-     > [!CAUTION]   — Potential risks or irreversible actions
--->
+Built for **developers and DevOps engineers** at all levels — whether you're deploying your first runner or architecting a fleet for your organization.
 
 ---
 
-## 🚀 Quick Start
+## 📖 Overview
 
-<!-- TEMPLATE: This is the MOST IMPORTANT section. Get the reader to "it works!" in the fewest steps. -->
-
-**Prerequisites:**
-
-- [ ] Prerequisite 1 — e.g., **Node.js 18+** (`node --version`)
-- [ ] Prerequisite 2 — e.g., **GitHub account** with [Copilot](https://github.com/features/copilot) access
-- [ ] Prerequisite 3 — e.g., **Git** (`git --version`)
-
-<!-- TEMPLATE: Use checkboxes for prerequisites. Include the verification command in parentheses. -->
-
-### 1. Set up the environment
-
-<!-- TEMPLATE: Replace with your actual setup steps. If you have a Codespaces badge, mention "click the badge above". -->
-
-```bash
-git clone https://github.com/shinyay/REPO_NAME.git
-cd REPO_NAME
-```
-
-<details>
-<summary>Alternative: VS Code + Dev Containers (local)</summary>
-
-1. Install [Docker](https://www.docker.com/products/docker-desktop) and the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-2. Clone this repository
-3. Open in VS Code → click **"Reopen in Container"** when prompted
-
-</details>
-
-### 2. Install dependencies
-
-```bash
-npm install
-```
-
-### 3. Run and verify
-
-```bash
-npm start
-```
-
-If you see `✓ Server running on port 3000` — your setup works! You're ready to go.
-
-<!-- TEMPLATE: ALWAYS include a verification step. The reader needs to know "it worked".
-     Examples: "If you see Response: 4", "Open http://localhost:3000", "All tests should pass" -->
+This repository contains **14 in-depth guides** spanning **3 Azure compute platforms**, complete with Bicep IaC templates, automation scripts, container images, and ready-to-use sample workflows. You'll learn not just *how* to set up self-hosted runners, but *why* each design decision matters — from networking and authentication to OIDC federation and security compliance.
 
 ---
 
-## 💡 Overview
+## 🗺️ Learning Paths
 
-<!-- TEMPLATE: Explain the WHY — what problem does this solve? How does it work conceptually?
-     This is where you differentiate from other projects. -->
+Choose the path that matches your goal:
 
-### What problem does this solve?
-
-Describe the pain point in 2–3 sentences. What was the user doing before this project existed?
-
-### How does it work?
-
-<!-- TEMPLATE: Include an ASCII diagram if your project has multiple components.
-     ASCII diagrams > paragraphs of explanation. -->
-
-```
-Component A → Component B → Component C
-     ↓              ↓
-  Storage        Output
-```
-
-<!-- TEMPLATE: Replace with your actual architecture. Examples:
-     "Your App → SDK Client → (JSON-RPC) → Copilot CLI → LLM API"
-     "Fetch → Analyze → Translate → Present → Validate"
--->
+| If you are… | Start here | Then go to… |
+|---|---|---|
+| 🟢 Brand new to self-hosted runners | [Introduction](docs/01-introduction.md) → [Prerequisites](docs/03-prerequisites.md) → [VM Manual Setup](docs/06-vm-manual-setup.md) | [Sample Workflows](docs/13-sample-workflows.md) |
+| 🔧 Want to automate VM provisioning | [Prerequisites](docs/03-prerequisites.md) → [VM Automation](docs/07-vm-automation.md) | [OIDC](docs/10-oidc-workload-identity.md), [Security](docs/11-security-hardening.md) |
+| ☸️ Want Kubernetes-based runners | [Prerequisites](docs/03-prerequisites.md) → [Auth Tokens](docs/05-github-auth-tokens.md) → [AKS + ARC](docs/09-aks-arc-setup.md) | [OIDC](docs/10-oidc-workload-identity.md), [Security](docs/11-security-hardening.md) |
+| 🔒 Focused on security & compliance | [Networking](docs/04-networking-connectivity.md) → [Auth](docs/05-github-auth-tokens.md) → [OIDC](docs/10-oidc-workload-identity.md) → [Security](docs/11-security-hardening.md) | [Advanced Enterprise](docs/14-advanced-enterprise.md) |
 
 ---
 
-## ✨ Features
+## ✨ What's Covered
 
-<!-- TEMPLATE: Choose ONE format below and delete the other.
-     Use the TABLE format for 4+ features with descriptions.
-     Use the LIST format for simple feature enumeration. -->
-
-<!-- FORMAT A: Rich table (recommended for 4+ features) -->
-
-| Feature | Description |
-|---------|-------------|
-| **Feature 1** | What it does and why it matters |
-| **Feature 2** | What it does and why it matters |
-| **Feature 3** | What it does and why it matters |
-| **Feature 4** | What it does and why it matters |
-
-<!-- FORMAT B: Bullet list (for simpler projects)
-- **Feature 1** — Brief description
-- **Feature 2** — Brief description
-- **Feature 3** — Brief description
--->
+- ☁️ **3 Azure platforms** — Virtual Machines, Container Instances (ACI), and AKS with Actions Runner Controller
+- 📊 **Platform decision guide** — side-by-side comparison with cost analysis to pick the right compute for your workloads
+- 🏢 **GitHub Enterprise Cloud features** — runner groups, organization policies, and fine-grained access controls
+- 🔐 **OIDC / Workload Identity Federation** — eliminate stored secrets with federated credentials
+- 🏗️ **Infrastructure as Code** — fully parameterized Bicep templates for repeatable deployments
+- 🛡️ **Security hardening guide** — network isolation, least-privilege, image scanning, and audit logging
+- 📈 **Monitoring & troubleshooting** — diagnostics, log collection, and common issue resolution
+- 🚀 **6 ready-to-use sample workflows** — CI/CD patterns purpose-built for self-hosted runners
 
 ---
 
-## 🏗️ Architecture
+## ⚡ Prerequisites
 
-<!-- TEMPLATE: DELETE this section if your project is simple (single script, small library).
-     KEEP it if your project has multiple components, layers, or services. -->
+Before you begin, make sure you have:
 
-### Project Structure
-
-```
-project-root/
-├── src/                # Source code
-│   ├── main.ts         # Entry point
-│   └── utils/          # Shared utilities
-├── tests/              # Test suite
-├── docs/               # Documentation
-├── .github/            # GitHub configuration
-│   ├── workflows/      # CI/CD pipelines
-│   └── copilot-instructions.md
-├── package.json
-└── README.md
-```
-
-<!-- TEMPLATE: Replace with your actual directory tree.
-     Only show important directories/files — not every file. -->
-
----
-
-## 📖 Usage
-
-<!-- TEMPLATE: Show how to use the project AFTER setup. Include the "I want to…" table
-     for projects with multiple use cases. Delete if your project has a single workflow. -->
-
-### Quick Reference: "I want to…"
-
-| I want to… | Do this |
-|------------|---------|
-| Run the dev server | `npm run dev` |
-| Run all tests | `npm test` |
-| Build for production | `npm run build` |
-| Add a new feature | See [Contributing](#-contributing) |
-
-<!-- TEMPLATE: This "I want to…" pattern is the most user-friendly navigation.
-     Replace with your project's actual tasks. -->
-
-### Example
-
-```bash
-# Example command or code snippet showing typical usage
-```
-
-<!-- TEMPLATE: Show a REAL example, not pseudocode. The reader should be able to
-     copy-paste and run this immediately after Quick Start. -->
+- [ ] **Azure account** — [free trial](https://azure.microsoft.com/free/) is sufficient to get started
+- [ ] **GitHub Enterprise Cloud organization** — required for runner groups and advanced policies
+- [ ] **Azure CLI** — `az --version` ([install](https://learn.microsoft.com/cli/azure/install-azure-cli))
+- [ ] **GitHub CLI** — `gh --version` ([install](https://cli.github.com/))
 
 > [!TIP]
-> Pro tip or important usage note that saves time or prevents common mistakes.
-
-<!-- TEMPLATE: DELETE this tip if you don't have one. Don't add filler tips. -->
+> See the [full prerequisites guide](docs/03-prerequisites.md) for detailed setup instructions, required permissions, and optional tooling.
 
 ---
 
-## 📦 Installation
+## 📚 Full Documentation
 
-<!-- TEMPLATE: DELETE this section if Quick Start already covers installation.
-     KEEP it if you support multiple installation methods (npm, brew, curl, etc.). -->
+The complete table of contents for all 14 guides is available at:
 
-### npm
-
-```bash
-npm install -g your-package
-```
-
-### Homebrew (macOS / Linux)
-
-```bash
-brew install your-package
-```
-
-<details>
-<summary>Other installation methods</summary>
-
-### curl (Install Script)
-
-```bash
-curl -fsSL https://example.com/install | bash
-```
-
-### From Source
-
-```bash
-git clone https://github.com/shinyay/REPO_NAME.git
-cd REPO_NAME
-npm install && npm run build
-```
-
-</details>
+👉 **[docs/README.md](docs/README.md)**
 
 ---
 
-## 🛠️ Development
+## 🏗️ Repository Structure
 
-<!-- TEMPLATE: DELETE this section for non-code projects (workshops, documentation repos).
-     KEEP it for libraries, tools, and applications. -->
-
-### Local Setup
-
-```bash
-git clone https://github.com/shinyay/REPO_NAME.git
-cd REPO_NAME
-npm install
 ```
-
-### Running Tests
-
-```bash
-npm test
+├── docs/           # 14 tutorial guides (beginner → advanced)
+├── bicep/          # Infrastructure as Code templates (Azure resources)
+├── scripts/        # Automation scripts (cloud-init, provisioning)
+├── containers/     # Runner container image (Dockerfile + config)
+├── k8s/            # Kubernetes manifests (Actions Runner Controller)
+└── .github/        # Sample GitHub Actions workflows
 ```
-
-### Linting
-
-```bash
-npm run lint
-```
-
----
-
-## 🌐 Access Points
-
-<!-- TEMPLATE: DELETE this section if your project doesn't expose web services.
-     KEEP for projects with web UIs, APIs, admin panels, databases, etc. -->
-
-| Service | URL | Credentials |
-|---------|-----|-------------|
-| **Application** | http://localhost:PORT/ | — |
-| **Admin Panel** | http://localhost:PORT/ | user / pass |
-| **API Docs** | http://localhost:PORT/docs | — |
-
-<!-- TEMPLATE: Include database connection details if applicable:
-     ```properties
-     Host: localhost
-     Port: 5432
-     Database: mydb
-     User: myuser
-     Password: mypass
-     ```
--->
-
----
-
-## 🔧 Troubleshooting
-
-<!-- TEMPLATE: DELETE this section if your project is simple (single script, small library).
-     KEEP for projects with environment dependencies, Docker, external services, etc. -->
-
-<details>
-<summary><b>Common Issues & Solutions</b></summary>
-
-### Issue Category 1
-
-**Symptom description:**
-```bash
-# Diagnostic command to identify the problem
-```
-
-**Solution:**
-```bash
-# Fix command
-```
-
-### Issue Category 2
-
-**Symptom description:**
-```bash
-# Diagnostic command
-```
-
-**Solution:**
-```bash
-# Fix command
-```
-
-<!-- TEMPLATE: Use <details> for long dependency lists, detailed configs,
-     or verbose troubleshooting that would clutter the main flow.
-     Group issues by category (Build, Deployment, Environment, etc.). -->
-
-</details>
 
 ---
 
 ## 📚 References
 
-<!-- TEMPLATE: Use a table for 3+ links. Use a bullet list for fewer. -->
-
 | Resource | Link |
 |----------|------|
-| Official Documentation | [docs.example.com](https://docs.example.com) |
-| API Reference | [api.example.com](https://api.example.com) |
-| Related Project | [github.com/org/project](https://github.com/org/project) |
+| GitHub Docs: Self-hosted runners | [docs.github.com/actions/hosting-your-own-runners](https://docs.github.com/en/actions/hosting-your-own-runners) |
+| GitHub Docs: Actions Runner Controller | [docs.github.com/actions/hosting-your-own-runners/managing-self-hosted-runners-with-actions-runner-controller](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners-with-actions-runner-controller) |
+| Microsoft Learn: Azure Virtual Machines | [learn.microsoft.com/azure/virtual-machines](https://learn.microsoft.com/azure/virtual-machines/) |
+| Microsoft Learn: Azure Kubernetes Service | [learn.microsoft.com/azure/aks](https://learn.microsoft.com/azure/aks/) |
+| Microsoft Learn: Azure Container Instances | [learn.microsoft.com/azure/container-instances](https://learn.microsoft.com/azure/container-instances/) |
+| GitHub Docs: OIDC with Azure | [docs.github.com/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-azure](https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-azure) |
 
 ---
 
-## 🤝 Contributing
-
-Found a bug? Have an idea? [Open an issue](https://github.com/shinyay/REPO_NAME/issues/new) — contributions and suggestions are welcome.
-
-<!-- TEMPLATE: For larger projects, link to a CONTRIBUTING.md instead:
-     See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
--->
-
----
-
-## ⭐ Support
-
-<!-- TEMPLATE: DELETE if you don't want a CTA section. Useful for open-source projects
-     seeking community engagement. -->
-
-If this project helps you, please consider:
-- ⭐ Starring this repository
-- 🐛 [Reporting issues](https://github.com/shinyay/REPO_NAME/issues/new)
-- 📢 Sharing with others
-
----
-
-## Licence
-
-Released under the [MIT license](https://gist.githubusercontent.com/shinyay/56e54ee4c0e22db8211e05e70a63247e/raw/f3ac65a05ed8c8ea70b653875ccac0c6dbc10ba1/LICENSE)
-
-## Author
+## ✍️ Author
 
 - github: <https://github.com/shinyay>
 - bluesky: <https://bsky.app/profile/yanashin.bsky.social>
 - twitter: <https://twitter.com/yanashin18618>
 - mastodon: <https://mastodon.social/@yanashin>
 - linkedin: <https://www.linkedin.com/in/yanashin/>
+
+## 📄 Licence
+
+Released under the [MIT license](https://gist.githubusercontent.com/shinyay/56e54ee4c0e22db8211e05e70a63247e/raw/f3ac65a05ed8c8ea70b653875ccac0c6dbc10ba1/LICENSE)

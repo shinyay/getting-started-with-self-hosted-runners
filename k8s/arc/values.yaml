@@ -1,0 +1,41 @@
+# GitHub Actions Runner Scale Set — Helm Values
+# See: https://github.com/actions/runner-container-hooks
+
+## GitHub configuration
+githubConfigUrl: "https://github.com/YOUR-ORG"
+githubConfigSecret:
+  github_app_id: ""
+  github_app_installation_id: ""
+  github_app_private_key: ""
+
+## Runner group (Enterprise Cloud)
+runnerGroup: "Default"
+
+## Runner scale set name
+runnerScaleSetName: "arc-runner-set"
+
+## Scaling configuration
+minRunners: 0
+maxRunners: 10
+
+## Container configuration
+template:
+  spec:
+    containers:
+      - name: runner
+        image: "ghcr.io/actions/actions-runner:latest"
+        command: ["/home/runner/run.sh"]
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "512Mi"
+          limits:
+            cpu: "2000m"
+            memory: "4Gi"
+
+## Docker-in-Docker sidecar (uncomment to enable)
+# containerMode:
+#   type: "dind"
+
+## Service account
+# serviceAccountName: "arc-runner-sa"

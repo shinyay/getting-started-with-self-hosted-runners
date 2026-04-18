@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "acrName": {
+      "value": "ghrunneracr"
+    },
+    "acrLoginServer": {
+      "value": "ghrunneracr.azurecr.io"
+    },
+    "githubUrl": {
+      "value": "https://github.com/YOUR-ORG/YOUR-REPO"
+    },
+    "runnerToken": {
+      "value": "<REGISTRATION_TOKEN>"
+    },
+    "runnerName": {
+      "value": "ghrunner-aci-01"
+    },
+    "runnerLabels": {
+      "value": "azure,linux,x64,aci"
+    }
+  }
+}

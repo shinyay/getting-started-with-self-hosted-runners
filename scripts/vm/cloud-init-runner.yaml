@@ -1,0 +1,55 @@
+#cloud-config
+package_update: true
+package_upgrade: false
+
+packages:
+  - curl
+  - jq
+  - git
+  - docker.io
+  - build-essential
+
+runcmd:
+  # Add azureuser to docker group
+  - usermod -aG docker azureuser
+  
+  # Create runner user
+  - useradd -m -s /bin/bash runner
+  - usermod -aG docker runner
+  
+  # Download and install runner
+  - |
+    RUNNER_VERSION="2.321.0"
+    RUNNER_ARCH="x64"
+    RUNNER_DIR="/home/runner/actions-runner"
+    
+    mkdir -p ${RUNNER_DIR}
+    cd ${RUNNER_DIR}
+    
+    curl -o "actions-runner-linux-${RUNNER_ARCH}-${RUNNER_VERSION}.tar.gz" -L \
+      "https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${RUNNER_ARCH}-${RUNNER_VERSION}.tar.gz"
+    
+    tar xzf "./actions-runner-linux-${RUNNER_ARCH}-${RUNNER_VERSION}.tar.gz"
+    rm -f "./actions-runner-linux-${RUNNER_ARCH}-${RUNNER_VERSION}.tar.gz"
+    
+    # Install dependencies
+    ./bin/installdependencies.sh
+    
+    # Change ownership
+    chown -R runner:runner ${RUNNER_DIR}
+    
+    # Configure runner (run as runner user)
+    su - runner -c "cd ${RUNNER_DIR} && ./config.sh \
+      --url __GITHUB_URL__ \
+      --token __RUNNER_TOKEN__ \
+      --name __RUNNER_NAME__ \
+      --labels __RUNNER_LABELS__ \
+      --runnergroup Default \
+      --work _work \
+      --unattended \
+      --replace"
+    
+    # Install and start service
+    cd ${RUNNER_DIR}
+    ./svc.sh install runner
+    ./svc.sh start
