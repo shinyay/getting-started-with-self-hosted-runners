@@ -73,6 +73,9 @@ In addition to the tutorial, this repository **operates a real fleet of self-hos
 
 Use it as a worked example of how the patterns described in the tutorial play out in practice.
 
+> [!TIP]
+> Running GitHub Copilot Coding Agent on a self-hosted runner? See **[docs/15-copilot-coding-agent.md](docs/15-copilot-coding-agent.md)** for the four hard requirements (`copilot-setup-steps.yml`, agent firewall OFF, ephemeral runner, ARC for private repos) and a troubleshooting FAQ.
+
 ---
 
 ## 🏗️ Repository Structure

@@ -434,4 +434,4 @@ gh api orgs/YOUR-ORG/actions/required_workflows \
 
 ---
 
-← **Previous:** [Sample Workflows](13-sample-workflows.md) | [← Back to Tutorial Hub](README.md)
+← **Previous:** [Sample Workflows](13-sample-workflows.md) | **Next:** [Copilot Coding Agent on Self-Hosted](15-copilot-coding-agent.md) →

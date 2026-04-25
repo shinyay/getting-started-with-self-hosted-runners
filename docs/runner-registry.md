@@ -7,7 +7,7 @@ This document tracks which ACI containers are running self-hosted runners and wh
 > [!NOTE]
 > The **Labels** column shows the *custom* labels set via the `RUNNER_LABELS` env var. GitHub additionally auto-attaches `self-hosted`, `Linux`, and `X64`, so workflows should target `runs-on: [self-hosted, linux, azure, aci]`.
 >
-> The **Status** column annotates `(ephemeral)` when the runner is configured with `EPHEMERAL=true` and `--restart-policy Always`. Ephemeral runners exit after a single job (clean `_work` between jobs) and ACI restarts the container so the next runner registers automatically. This pattern is recommended for **GitHub Copilot coding agent** workloads, which fail on persistent runners due to leftover git state in `_work`.
+> The **Status** column annotates `(ephemeral)` when the runner is configured with `EPHEMERAL=true` and `--restart-policy Always`. Ephemeral runners exit after a single job (clean `_work` between jobs) and ACI restarts the container so the next runner registers automatically. This pattern is recommended for **GitHub Copilot coding agent** workloads, which fail on persistent runners due to leftover git state in `_work`. See [docs/15-copilot-coding-agent.md](15-copilot-coding-agent.md) for the full requirements and troubleshooting guide.
 
 | Container | Repository | Labels (custom) | CPU | Memory | Status |
 |-----------|-----------|-----------------|:---:|:------:|:------:|

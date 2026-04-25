@@ -26,6 +26,7 @@ graph TD
     AUTH --> AKS[09 — AKS + ARC Setup]
     AKS --> SEC[11 — Security Hardening]
     SEC --> ENT[14 — Advanced Enterprise]
+    ENT --> COPILOT[15 — Copilot Coding Agent]
 
     %% Styles — Beginner (green)
     style START fill:#4CAF50,stroke:#2E7D32,color:#fff
@@ -44,6 +45,7 @@ graph TD
     style AKS fill:#EF5350,stroke:#B71C1C,color:#fff
     style SEC fill:#EF5350,stroke:#B71C1C,color:#fff
     style ENT fill:#EF5350,stroke:#B71C1C,color:#fff
+    style COPILOT fill:#EF5350,stroke:#B71C1C,color:#fff
 ```
 
 **Legend:** 🟢 Beginner &nbsp;|&nbsp; 🔵 Intermediate &nbsp;|&nbsp; 🔴 Advanced
@@ -68,6 +70,7 @@ graph TD
 | 12 | [Monitoring & Maintenance](12-monitoring-maintenance.md) | 🟡 Intermediate | Health monitoring, logging, updates, troubleshooting |
 | 13 | [Sample Workflows](13-sample-workflows.md) | 🟢 All | 6 ready-to-use GitHub Actions workflow examples |
 | 14 | [Advanced Enterprise](14-advanced-enterprise.md) | 🔴 Advanced | Runner groups, cost optimization, multi-region, compliance |
+| 15 | [Copilot Coding Agent on Self-Hosted](15-copilot-coding-agent.md) | 🔴 Advanced | Field notes for running GitHub Copilot Coding Agent on self-hosted runners (the four requirements + troubleshooting) |
 
 ---
 
@@ -86,6 +89,7 @@ graph TD
 | Monitor and troubleshoot runners | [12 — Monitoring & Maintenance](12-monitoring-maintenance.md) |
 | See example workflows | [13 — Sample Workflows](13-sample-workflows.md) |
 | Manage runner groups for my enterprise | [14 — Advanced Enterprise](14-advanced-enterprise.md) |
+| Run GitHub Copilot Coding Agent on a self-hosted runner | [15 — Copilot Coding Agent on Self-Hosted](15-copilot-coding-agent.md) |
 
 ---
 
