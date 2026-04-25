@@ -4,8 +4,11 @@ This document tracks which ACI containers are running self-hosted runners and wh
 
 ## Current Runners
 
-| Container | Repository | Labels | CPU | Memory | Status |
-|-----------|-----------|--------|:---:|:------:|:------:|
+> [!NOTE]
+> The **Labels** column shows the *custom* labels set via the `RUNNER_LABELS` env var. GitHub additionally auto-attaches `self-hosted`, `Linux`, and `X64`, so workflows should target `runs-on: [self-hosted, linux, azure, aci]`.
+
+| Container | Repository | Labels (custom) | CPU | Memory | Status |
+|-----------|-----------|-----------------|:---:|:------:|:------:|
 | `ghrunner-aci-01` | [awesome-shinyay-knowledge-base-tech-articles](https://github.com/shinyay/awesome-shinyay-knowledge-base-tech-articles) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
 | `ghrunner-aci-02` | [awesome-shinyay-knowledge-base](https://github.com/shinyay/awesome-shinyay-knowledge-base) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
 | `ghrunner-aci-03` | [gh-changelog](https://github.com/shinyay/gh-changelog) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
@@ -26,7 +29,9 @@ This document tracks which ACI containers are running self-hosted runners and wh
 
 | Tag | Changes |
 |-----|---------|
-| `v0.2.0` (current `latest`) | Pre-creates `/opt/hostedtoolcache` owned by the `runner` user so `ruby/setup-ruby@v1` (which hard-codes this path and ignores `RUNNER_TOOL_CACHE`) can install toolchains. |
+| `v0.4.0` (current `latest`) | Installs `libyaml-0-2` so `ruby/setup-ruby@v1` prebuilt binaries can load (PR #3). |
+| `v0.3.0` | Bumps `actions/runner` to `2.333.1` for `node24` support, required by `actions/checkout@v5` and other v5 actions (PR #2). |
+| `v0.2.0` | Pre-creates `/opt/hostedtoolcache` owned by the `runner` user so `ruby/setup-ruby@v1` (which hard-codes this path and ignores `RUNNER_TOOL_CACHE`) can install toolchains (PR #1). |
 | `v0.1.0` | Initial image. |
 
 > [!NOTE]
