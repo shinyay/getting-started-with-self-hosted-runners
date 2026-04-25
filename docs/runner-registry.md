@@ -6,6 +6,8 @@ This document tracks which ACI containers are running self-hosted runners and wh
 
 > [!NOTE]
 > The **Labels** column shows the *custom* labels set via the `RUNNER_LABELS` env var. GitHub additionally auto-attaches `self-hosted`, `Linux`, and `X64`, so workflows should target `runs-on: [self-hosted, linux, azure, aci]`.
+>
+> The **Status** column annotates `(ephemeral)` when the runner is configured with `EPHEMERAL=true` and `--restart-policy Always`. Ephemeral runners exit after a single job (clean `_work` between jobs) and ACI restarts the container so the next runner registers automatically. This pattern is recommended for **GitHub Copilot coding agent** workloads, which fail on persistent runners due to leftover git state in `_work`.
 
 | Container | Repository | Labels (custom) | CPU | Memory | Status |
 |-----------|-----------|-----------------|:---:|:------:|:------:|
@@ -15,7 +17,7 @@ This document tracks which ACI containers are running self-hosted runners and wh
 | `ghrunner-aci-04` | [gh-changelog-zenn](https://github.com/shinyay/gh-changelog-zenn) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
 | `ghrunner-aci-05` | [continuous-cloud-agent](https://github.com/shinyay/continuous-cloud-agent) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
 | `ghrunner-aci-06` | [dexter-for-japan](https://github.com/shinyay/dexter-for-japan) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
-| `ghrunner-aci-07` | [ghcp-6-layer-agentic-platform-phase3-dry-run](https://github.com/shinyay/ghcp-6-layer-agentic-platform-phase3-dry-run) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
+| `ghrunner-aci-07` | [ghcp-6-layer-agentic-platform-phase3-dry-run](https://github.com/shinyay/ghcp-6-layer-agentic-platform-phase3-dry-run) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral) |
 
 ## Azure Resources
 
@@ -80,6 +82,18 @@ az container create \
 
 > [!IMPORTANT]
 > Replace `YOUR-REPO` with the repository name and `NN` with the next available number (e.g., `07`).
+
+> [!TIP]
+> **Ephemeral mode (recommended for GitHub Copilot coding agent and any workload sensitive to dirty `_work` state):**
+> Set `EPHEMERAL=true` and `--restart-policy Always`. The runner exits after one job (clean `_work` between jobs) and ACI restarts the container so a fresh runner re-registers.
+>
+> ```bash
+> # ... same as above, but change these two lines:
+>   --restart-policy Always \
+>     EPHEMERAL=true \
+> ```
+>
+> ⚠️ Caveat: the `RUNNER_TOKEN` baked into the container env is the original *registration* token, which expires in ~1 hour. After expiry, restarted containers will fail to re-register. For long-lived ephemeral runners, recreate the container periodically (or migrate to ARC on AKS, where pods are re-spawned by the controller with fresh tokens).
 
 ### Step 4: Verify
 
