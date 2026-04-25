@@ -65,6 +65,16 @@ The complete table of contents for all 14 guides is available at:
 
 ---
 
+## 🚀 Live Runner Fleet (this repo's actual deployment)
+
+In addition to the tutorial, this repository **operates a real fleet of self-hosted runners on Azure** that serves multiple GitHub repositories. The current ACI containers (`ghrunner-aci-01` … `ghrunner-aci-07`), the Azure resources backing them (resource group, ACR, runner image versions), and the operational runbook (add / remove / redeploy a runner) are all tracked in:
+
+👉 **[docs/runner-registry.md](docs/runner-registry.md)** — Runner Registry: ACI ↔ Repository mapping & operations runbook
+
+Use it as a worked example of how the patterns described in the tutorial play out in practice.
+
+---
+
 ## 🏗️ Repository Structure
 
 ```
