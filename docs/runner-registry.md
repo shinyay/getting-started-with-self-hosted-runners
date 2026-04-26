@@ -17,7 +17,6 @@ This document tracks which ACI containers are running self-hosted runners and wh
 | `ghrunner-aci-04` | [gh-changelog-zenn](https://github.com/shinyay/gh-changelog-zenn) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.1) |
 | `ghrunner-aci-05` | [continuous-cloud-agent](https://github.com/shinyay/continuous-cloud-agent) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
 | `ghrunner-aci-06` | [dexter-for-japan](https://github.com/shinyay/dexter-for-japan) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
-| `ghrunner-aci-07` | [ghcp-6-layer-agentic-platform-phase3-dry-run](https://github.com/shinyay/ghcp-6-layer-agentic-platform-phase3-dry-run) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral) |
 
 ## Azure Resources
 
@@ -84,7 +83,7 @@ az container create \
 ```
 
 > [!IMPORTANT]
-> Replace `YOUR-REPO` with the repository name and `NN` with the next available number (e.g., `07`).
+> Replace `YOUR-REPO` with the repository name and `NN` with the next available number (e.g., `07`, since `ghrunner-aci-07` was decommissioned and that slot is free).
 
 > [!TIP]
 > **Ephemeral mode (recommended for GitHub Copilot coding agent and any workload sensitive to dirty `_work` state):**
