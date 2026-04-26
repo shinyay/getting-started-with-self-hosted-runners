@@ -11,9 +11,9 @@ This document tracks which ACI containers are running self-hosted runners and wh
 
 | Container | Repository | Labels (custom) | CPU | Memory | Status |
 |-----------|-----------|-----------------|:---:|:------:|:------:|
-| `ghrunner-aci-01` | [awesome-shinyay-knowledge-base-tech-articles](https://github.com/shinyay/awesome-shinyay-knowledge-base-tech-articles) | `azure,linux,x64,aci` | 2 | 4 GB | ⚠️ Offline (needs recreate w/ v0.5.0) |
+| `ghrunner-aci-01` | [awesome-shinyay-knowledge-base-tech-articles](https://github.com/shinyay/awesome-shinyay-knowledge-base-tech-articles) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.0) |
 | `ghrunner-aci-02` | [awesome-shinyay-knowledge-base](https://github.com/shinyay/awesome-shinyay-knowledge-base) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
-| `ghrunner-aci-03` | [gh-changelog](https://github.com/shinyay/gh-changelog) | `azure,linux,x64,aci` | 2 | 4 GB | ⚠️ Offline (needs recreate w/ v0.5.0) |
+| `ghrunner-aci-03` | [gh-changelog](https://github.com/shinyay/gh-changelog) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.0) |
 | `ghrunner-aci-04` | [gh-changelog-zenn](https://github.com/shinyay/gh-changelog-zenn) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
 | `ghrunner-aci-05` | [continuous-cloud-agent](https://github.com/shinyay/continuous-cloud-agent) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
 | `ghrunner-aci-06` | [dexter-for-japan](https://github.com/shinyay/dexter-for-japan) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
@@ -31,7 +31,8 @@ This document tracks which ACI containers are running self-hosted runners and wh
 
 | Tag | Changes |
 |-----|---------|
-| `v0.5.0` (current `latest`) | Installs GitHub CLI (`gh`) so workflows that auto-create/merge PRs (e.g. knowledge-base ingestion, evolution, synthesis) succeed on self-hosted runners. Previously these steps failed with `gh: command not found`. |
+| `v0.6.0` (current `latest`) | Entrypoint now self-mints a fresh registration token on every container start using a long-lived `GH_PAT` (fine-grained PAT with `Administration: read & write`). Eliminates the 1-hour registration-token TTL bomb that crashed `EPHEMERAL=true` + `restart-policy=Always` runners after ~1 hour. Backwards-compatible with `RUNNER_TOKEN` for legacy v0.5.x containers. Also fixes graceful deregister (now mints a real `remove-token`). |
+| `v0.5.0` | Installs GitHub CLI (`gh`) so workflows that auto-create/merge PRs (e.g. knowledge-base ingestion, evolution, synthesis) succeed on self-hosted runners. Previously these steps failed with `gh: command not found`. |
 | `v0.4.0` | Installs `libyaml-0-2` so `ruby/setup-ruby@v1` prebuilt binaries can load (PR #3). |
 | `v0.3.0` | Bumps `actions/runner` to `2.333.1` for `node24` support, required by `actions/checkout@v5` and other v5 actions (PR #2). |
 | `v0.2.0` | Pre-creates `/opt/hostedtoolcache` owned by the `runner` user so `ruby/setup-ruby@v1` (which hard-codes this path and ignores `RUNNER_TOOL_CACHE`) can install toolchains (PR #1). |
@@ -133,7 +134,49 @@ Add the new runner to the **Current Runners** table above.
 
 ---
 
-## How to Remove a Runner
+## GH_PAT (v0.6.0+) — Setup and Rotation
+
+The v0.6.0+ runner image self-mints a registration token from a long-lived
+**fine-grained Personal Access Token** (`GH_PAT`) on every container start.
+This eliminates the 1-hour registration-token expiry that crashed
+`EPHEMERAL=true` + `restart-policy=Always` runners.
+
+### One-time PAT creation
+
+1. https://github.com/settings/personal-access-tokens → **Generate new token**.
+2. **Token name**: `ghrunner-self-mint`.
+3. **Resource owner**: `shinyay`.
+4. **Expiration**: 1 year (max).
+5. **Repository access**: *Only select repositories* → pick all 7 runner-served
+   repos (knowledge-base-tech-articles, awesome-shinyay-knowledge-base,
+   gh-changelog, gh-changelog-zenn, continuous-cloud-agent, dexter-for-japan,
+   ghcp-6-layer-agentic-platform-phase3-dry-run).
+6. **Repository permissions** → **Administration**: `Read and write`. Leave
+   everything else at default (no access). This is the only permission needed
+   for `POST /repos/:o/:r/actions/runners/registration-token`.
+7. Generate, then copy the token. Store in your password manager.
+
+### Local export (for the recreate script)
+
+```bash
+export GH_PAT='github_pat_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+```
+
+### Rotate (annually, before expiry)
+
+1. Generate a new PAT with the same scope (steps above).
+2. `export GH_PAT='<new>'`
+3. Re-run `recreate-runners.sh fragile` (or recreate runners individually).
+   ACI re-creates each container with the new PAT in its secure env vars; the
+   entrypoint will use it on every subsequent restart automatically.
+4. Revoke the old PAT in GitHub UI.
+
+> [!IMPORTANT]
+> The PAT lives **inside the running container** as a secure env var (encrypted
+> at rest in ACI; not visible in `az container show` output). It never touches
+> `config.sh --token`, only the GitHub REST API.
+
+
 
 ```bash
 # 1. Delete the ACI container
