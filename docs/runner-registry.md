@@ -17,6 +17,7 @@ This document tracks which ACI containers are running self-hosted runners and wh
 | `ghrunner-aci-04` | [gh-changelog-zenn](https://github.com/shinyay/gh-changelog-zenn) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.1) |
 | `ghrunner-aci-05` | [continuous-cloud-agent](https://github.com/shinyay/continuous-cloud-agent) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
 | `ghrunner-aci-06` | [dexter-for-japan](https://github.com/shinyay/dexter-for-japan) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
+| `ghrunner-aci-07` | [ghcp-6-layer-agentic-platform](https://github.com/shinyay/ghcp-6-layer-agentic-platform) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.1) |
 
 ## Azure Resources
 
@@ -83,7 +84,7 @@ az container create \
 ```
 
 > [!IMPORTANT]
-> Replace `YOUR-REPO` with the repository name and `NN` with the next available number (e.g., `07`, since `ghrunner-aci-07` was decommissioned and that slot is free).
+> Replace `YOUR-REPO` with the repository name and `NN` with the next available number (e.g., `08`, since `ghrunner-aci-07` is now serving `ghcp-6-layer-agentic-platform`).
 
 > [!TIP]
 > **Ephemeral mode (recommended for GitHub Copilot coding agent and any workload sensitive to dirty `_work` state):**
@@ -147,10 +148,10 @@ This eliminates the 1-hour registration-token expiry that crashed
 2. **Token name**: `ghrunner-self-mint`.
 3. **Resource owner**: `shinyay`.
 4. **Expiration**: 1 year (max).
-5. **Repository access**: *Only select repositories* → pick all 7 runner-served
+5. **Repository access**: *Only select repositories* → pick all 8 runner-served
    repos (knowledge-base-tech-articles, awesome-shinyay-knowledge-base,
    gh-changelog, gh-changelog-zenn, continuous-cloud-agent, dexter-for-japan,
-   ghcp-6-layer-agentic-platform-phase3-dry-run).
+   ghcp-6-layer-agentic-platform-phase3-dry-run, ghcp-6-layer-agentic-platform).
 6. **Repository permissions** → **Administration**: `Read and write`. Leave
    everything else at default (no access). This is the only permission needed
    for `POST /repos/:o/:r/actions/runners/registration-token`.
