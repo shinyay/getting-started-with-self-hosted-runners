@@ -23,6 +23,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     apt-transport-https \
     libyaml-0-2 \
+    # actions/setup-python@v5 prerequisites — without lsb-release the
+    # action fails to identify the host OS and aborts; gnupg is needed
+    # for verifying signed package metadata in the toolcache fetcher.
+    # See https://github.com/shinyay/gh-changelog/blob/main/docs/runbooks/aci_runner_rebuild.md §1.3
+    lsb-release \
+    gnupg \
     # Playwright Chromium runtime libraries (sudoless self-hosted runners
     # cannot run `playwright install --with-deps`, so we bake them in).
     libnss3 \
