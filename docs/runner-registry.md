@@ -18,6 +18,7 @@ This document tracks which ACI containers are running self-hosted runners and wh
 | `ghrunner-aci-05` | [continuous-cloud-agent](https://github.com/shinyay/continuous-cloud-agent) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
 | `ghrunner-aci-06` | [dexter-for-japan](https://github.com/shinyay/dexter-for-japan) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
 | `ghrunner-aci-07` | [ghcp-6-layer-agentic-platform](https://github.com/shinyay/ghcp-6-layer-agentic-platform) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.1) |
+| `ghrunner-aci-08` | [getting-started-with-token-optimization](https://github.com/shinyay/getting-started-with-token-optimization) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (v0.6.2-lsb-fix) |
 
 ## Azure Resources
 
@@ -84,7 +85,7 @@ az container create \
 ```
 
 > [!IMPORTANT]
-> Replace `YOUR-REPO` with the repository name and `NN` with the next available number (e.g., `08`, since `ghrunner-aci-07` is now serving `ghcp-6-layer-agentic-platform`).
+> Replace `YOUR-REPO` with the repository name and `NN` with the next available number (e.g., `09`, since `ghrunner-aci-08` is now serving `getting-started-with-token-optimization`).
 
 > [!TIP]
 > **Ephemeral mode (recommended for GitHub Copilot coding agent and any workload sensitive to dirty `_work` state):**
