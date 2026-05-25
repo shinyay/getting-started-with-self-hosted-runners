@@ -86,7 +86,7 @@ az container create \
 ```
 
 > [!IMPORTANT]
-> Replace `YOUR-REPO` with the repository name and `NN` with the next available number (e.g., `09`, since `ghrunner-aci-08` is now serving `getting-started-with-token-optimization`).
+> Replace `YOUR-REPO` with the repository name and `NN` with the next available number (e.g., `10`, since `ghrunner-aci-09` is now serving `gh-internal-notes`).
 
 > [!TIP]
 > **Ephemeral mode (recommended for GitHub Copilot coding agent and any workload sensitive to dirty `_work` state):**
