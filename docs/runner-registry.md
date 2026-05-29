@@ -20,6 +20,7 @@ This document tracks which ACI containers are running self-hosted runners and wh
 | `ghrunner-aci-07` | [ghcp-6-layer-agentic-platform](https://github.com/shinyay/ghcp-6-layer-agentic-platform) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.1) |
 | `ghrunner-aci-08` | [getting-started-with-token-optimization](https://github.com/shinyay/getting-started-with-token-optimization) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (v0.6.2-lsb-fix) |
 | `ghrunner-aci-09` | [gh-internal-notes](https://github.com/shinyay/gh-internal-notes) (private) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
+| `ghrunner-aci-10` | [polyclaw-jp](https://github.com/shinyay/polyclaw-jp) | `azure,linux,x64,aci` | 2 | 4 GB | 🟡 Pending deployment (ephemeral, v0.6.1) |
 
 ## Azure Resources
 
@@ -86,7 +87,7 @@ az container create \
 ```
 
 > [!IMPORTANT]
-> Replace `YOUR-REPO` with the repository name and `NN` with the next available number (e.g., `10`, since `ghrunner-aci-09` is now serving `gh-internal-notes`).
+> Replace `YOUR-REPO` with the repository name and `NN` with the next available number (e.g., `11`, since `ghrunner-aci-10` is now serving `polyclaw-jp`).
 
 > [!TIP]
 > **Ephemeral mode (recommended for GitHub Copilot coding agent and any workload sensitive to dirty `_work` state):**
@@ -150,10 +151,14 @@ This eliminates the 1-hour registration-token expiry that crashed
 2. **Token name**: `ghrunner-self-mint`.
 3. **Resource owner**: `shinyay`.
 4. **Expiration**: 1 year (max).
-5. **Repository access**: *Only select repositories* → pick all 8 runner-served
-   repos (knowledge-base-tech-articles, awesome-shinyay-knowledge-base,
-   gh-changelog, gh-changelog-zenn, continuous-cloud-agent, dexter-for-japan,
-   ghcp-6-layer-agentic-platform-phase3-dry-run, ghcp-6-layer-agentic-platform).
+5. **Repository access**: *All repositories* (covers any current or future
+   runner-served repo without re-issuing the PAT each time a new runner is
+   added). If you prefer a tighter blast radius, use *Only select repositories*
+   and add each runner-served repo individually (knowledge-base-tech-articles,
+   awesome-shinyay-knowledge-base, gh-changelog, gh-changelog-zenn,
+   continuous-cloud-agent, dexter-for-japan,
+   ghcp-6-layer-agentic-platform-phase3-dry-run,
+   ghcp-6-layer-agentic-platform, polyclaw-jp).
 6. **Repository permissions** → **Administration**: `Read and write`. Leave
    everything else at default (no access). This is the only permission needed
    for `POST /repos/:o/:r/actions/runners/registration-token`.
