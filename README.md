@@ -75,6 +75,8 @@ Use it as a worked example of how the patterns described in the tutorial play ou
 
 > [!TIP]
 > Running GitHub Copilot Coding Agent on a self-hosted runner? See **[docs/15-copilot-coding-agent.md](docs/15-copilot-coding-agent.md)** for the four hard requirements (`copilot-setup-steps.yml`, agent firewall OFF, ephemeral runner, ARC for private repos) and a troubleshooting FAQ.
+>
+> For a complete **zero-to-agent** walkthrough on a **private** repo (AKS + ARC + GitHub App, with a worked example), see **[docs/16-copilot-agent-arc-end-to-end.md](docs/16-copilot-agent-arc-end-to-end.md)**.
 
 ---
 
