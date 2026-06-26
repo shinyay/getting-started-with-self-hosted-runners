@@ -151,10 +151,12 @@ Full per-operation details: [references/operations.md](./references/operations.m
 | `ask_user` selection but no inputs | Supplement left blank | Issue a follow-up `ask_user` for the operation's required inputs |
 | Registry version ≠ live `:latest` tag | Expected for `:latest` deploys | Keep the recorded deploy-time version; do not write `latest` |
 | Copilot coding agent jobs fail on dirty `_work` | Persistent (non-ephemeral) runner | Use `EPHEMERAL=true` + `--restart-policy Always` (see `docs/15`) |
+| A runner job failed and the cause is unclear | Needs diagnosis first | Use the [`ghrunner-triage`](../ghrunner-triage/SKILL.md) skill to find the root cause, then return here |
 
 ## References
 
 - [references/operations.md](./references/operations.md) — full menu + per-operation steps & inputs
 - [scripts/inventory.sh](./scripts/inventory.sh) — read-only reconciliation (A1)
+- [`ghrunner-triage`](../ghrunner-triage/SKILL.md) — diagnose **why** a runner job failed, then return here to apply the fix
 - `docs/runner-registry.md` — authoritative ledger and procedures
 - `docs/08-aci-setup.md`, `docs/15-copilot-coding-agent.md` — ACI & Copilot agent specifics
