@@ -12,13 +12,13 @@ This document tracks which ACI containers are running self-hosted runners and wh
 | Container | Repository | Labels (custom) | CPU | Memory | Status |
 |-----------|-----------|-----------------|:---:|:------:|:------:|
 | `ghrunner-aci-01` | [awesome-shinyay-knowledge-base-tech-articles](https://github.com/shinyay/awesome-shinyay-knowledge-base-tech-articles) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.0) |
-| `ghrunner-aci-02` | [awesome-shinyay-knowledge-base](https://github.com/shinyay/awesome-shinyay-knowledge-base) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
-| `ghrunner-aci-03` | [gh-changelog](https://github.com/shinyay/gh-changelog) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.0) |
+| `ghrunner-aci-02` | [awesome-shinyay-knowledge-base](https://github.com/shinyay/awesome-shinyay-knowledge-base) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.0) |
+| `ghrunner-aci-03` | [gh-changelog](https://github.com/shinyay/gh-changelog) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.2-lsb-fix) |
 | `ghrunner-aci-04` | [gh-changelog-zenn](https://github.com/shinyay/gh-changelog-zenn) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.1) |
-| `ghrunner-aci-05` | [continuous-cloud-agent](https://github.com/shinyay/continuous-cloud-agent) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
-| `ghrunner-aci-06` | [dexter-for-japan](https://github.com/shinyay/dexter-for-japan) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
-| `ghrunner-aci-07` | [ghcp-6-layer-agentic-platform](https://github.com/shinyay/ghcp-6-layer-agentic-platform) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.1) |
-| `ghrunner-aci-08` | [getting-started-with-token-optimization](https://github.com/shinyay/getting-started-with-token-optimization) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (v0.6.2-lsb-fix) |
+| `ghrunner-aci-05` | [continuous-cloud-agent](https://github.com/shinyay/continuous-cloud-agent) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.0) |
+| `ghrunner-aci-06` | [dexter-for-japan](https://github.com/shinyay/dexter-for-japan) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.0) |
+| `ghrunner-aci-07` | [ghcp-6-layer-agentic-platform](https://github.com/shinyay/ghcp-6-layer-agentic-platform) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.2-lsb-fix) |
+| `ghrunner-aci-08` | [getting-started-with-token-optimization](https://github.com/shinyay/getting-started-with-token-optimization) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (GH_PAT, restart=Always, v0.6.2-lsb-fix) |
 | `ghrunner-aci-09` | [gh-internal-notes](https://github.com/shinyay/gh-internal-notes) (private) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online |
 | `ghrunner-aci-10` | [polyclaw-jp](https://github.com/shinyay/polyclaw-jp) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.1) |
 | `ghrunner-aci-11` | [tokopt](https://github.com/shinyay/tokopt) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (v0.6.1) |
@@ -35,7 +35,8 @@ This document tracks which ACI containers are running self-hosted runners and wh
 
 | Tag | Changes |
 |-----|---------|
-| `v0.6.1` (current `latest`) | Bakes in Chromium runtime libraries (`libnss3`, `libgbm1`, `libasound2`, `fonts-noto-cjk`, etc.) so workflows that use Playwright/Puppeteer can run `playwright install chromium` (browser binary only) without `--with-deps` — the sudoless runner container cannot satisfy `apt-get install`. Triggered by `gh-changelog-zenn/daily-update.yml`. |
+| `v0.6.2-lsb-fix` (current `latest`) | Adds `lsb-release` and `gnupg` so `actions/setup-python@v5` can install its Python toolchain on the sudoless runner container (the action's installer probes `lsb_release -a` and the deadsnakes PPA via `gpg`). Without these packages, Python setup failed with `lsb_release: command not found` and `gpg: command not found`. Commit `d833bd0`. |
+| `v0.6.1` | Bakes in Chromium runtime libraries (`libnss3`, `libgbm1`, `libasound2`, `fonts-noto-cjk`, etc.) so workflows that use Playwright/Puppeteer can run `playwright install chromium` (browser binary only) without `--with-deps` — the sudoless runner container cannot satisfy `apt-get install`. Triggered by `gh-changelog-zenn/daily-update.yml`. |
 | `v0.6.0` | Entrypoint now self-mints a fresh registration token on every container start using a long-lived `GH_PAT` (fine-grained PAT with `Administration: read & write`). Eliminates the 1-hour registration-token TTL bomb that crashed `EPHEMERAL=true` + `restart-policy=Always` runners after ~1 hour. Backwards-compatible with `RUNNER_TOKEN` for legacy v0.5.x containers. Also fixes graceful deregister (now mints a real `remove-token`). |
 | `v0.5.0` | Installs GitHub CLI (`gh`) so workflows that auto-create/merge PRs (e.g. knowledge-base ingestion, evolution, synthesis) succeed on self-hosted runners. Previously these steps failed with `gh: command not found`. |
 | `v0.4.0` | Installs `libyaml-0-2` so `ruby/setup-ruby@v1` prebuilt binaries can load (PR #3). |
