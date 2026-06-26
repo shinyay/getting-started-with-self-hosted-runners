@@ -125,4 +125,5 @@ it — direct the user to the `ghrunner-ops` operation or doc below.
 - [references/diagnostics.md](./references/diagnostics.md) — evidence collection & per-platform commands
 - [scripts/triage.sh](./scripts/triage.sh) — read-only triage (3 input modes)
 - [`ghrunner-ops`](../ghrunner-ops/SKILL.md) — apply the recommended fixes
+- [`ghrunner-provision`](../ghrunner-provision/SKILL.md) — provision & verify a runner (bring-up / prevention)
 - `docs/12`, `docs/15`, `docs/09`, `docs/16`, `docs/runner-registry.md` — source troubleshooting knowledge
