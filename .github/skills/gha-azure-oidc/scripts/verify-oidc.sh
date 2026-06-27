@@ -13,6 +13,9 @@
 #   --labels LABELS      runs-on labels (default: azure,linux,x64,aci)
 #   --environment ENV    add `environment: ENV` to the job (match an env-scoped FIC)
 #   --scope-rg RG        resource group the job reads via ARM to prove the role (default: ghrunner-rg)
+#   --use-azure-login    verify with azure/login@v2 + `az account show` instead of the
+#                        default az-free curl token-exchange (needs `az` on the runner,
+#                        i.e. ghrunner image v0.6.3+)
 #   --run-timeout S      max seconds to wait for the run (default: 420)
 #   --keep               keep the smoke workflow (default: remove it)
 #   --help
@@ -21,7 +24,7 @@
 set -uo pipefail
 
 RUNNER=""; LABELS="azure,linux,x64,aci"; ENVIRONMENT=""
-RUN_TIMEOUT=420; KEEP="false"; TARGET=""; SCOPE_RG="ghrunner-rg"
+RUN_TIMEOUT=420; KEEP="false"; TARGET=""; SCOPE_RG="ghrunner-rg"; USE_AZURE_LOGIN="false"
 WF_PATH=".github/workflows/oidc-smoke.yml"
 
 usage() { awk 'NR==1{next} /^#/{sub(/^# ?/,""); print; next} {exit}' "$0"; }
@@ -32,6 +35,7 @@ while [ $# -gt 0 ]; do
     --labels) LABELS="${2:?}"; shift 2;;
     --environment) ENVIRONMENT="${2:?}"; shift 2;;
     --scope-rg) SCOPE_RG="${2:?}"; shift 2;;
+    --use-azure-login) USE_AZURE_LOGIN="true"; shift;;
     --run-timeout) RUN_TIMEOUT="${2:?}"; shift 2;;
     --keep) KEEP="true"; shift;;
     -h|--help) usage; exit 0;;
@@ -64,11 +68,38 @@ echo ">>> Cloning (SSH) to place the OIDC smoke workflow..."
 git clone --depth 1 "git@github.com:$REPO.git" "$WORKTREE" >/dev/null 2>&1 \
   || { echo "ERROR: git clone failed; need SSH push access" >&2; exit 1; }
 mkdir -p "$WORKTREE/.github/workflows"
-# The smoke job proves OIDC federation END-TO-END without depending on the
-# runner image shipping the Azure CLI: it (1) gets the GitHub OIDC token,
-# (2) exchanges it at Entra for an ARM access token (proves the FIC subject
-# matches), and (3) calls ARM REST to read the resource group (proves the role
-# assignment). Uses only curl + jq (present in this repo's runner image).
+if [ "$USE_AZURE_LOGIN" = "true" ]; then
+# azure/login@v2 + `az account show` — the production pattern. Requires `az` on
+# the runner (ghrunner image v0.6.3+).
+cat > "$WORKTREE/$WF_PATH" <<YAML
+name: OIDC Login Smoke Test
+on:
+  workflow_dispatch:
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  oidc-login:
+    runs-on: [${RUNS_ON}]
+${ENV_LINE}
+    steps:
+      - name: Azure login via OIDC
+        uses: azure/login@v2
+        with:
+          client-id: \${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: \${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: \${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Prove passwordless auth
+        run: |
+          az account show --output table
+          echo "azure/login@v2 passwordless login OK"
+YAML
+else
+# Default: prove OIDC federation END-TO-END without depending on the runner
+# image shipping the Azure CLI: (1) get the GitHub OIDC token, (2) exchange it
+# at Entra for an ARM access token (proves the FIC subject matches), and (3)
+# call ARM REST to read the resource group (proves the role assignment).
+# Uses only curl + jq (present in this repo's runner image).
 cat > "$WORKTREE/$WF_PATH" <<YAML
 name: OIDC Login Smoke Test
 on:
@@ -125,6 +156,7 @@ ${ENV_LINE}
           echo "::endgroup::"
           echo "OIDC passwordless login + role check OK"
 YAML
+fi
 
 git -C "$WORKTREE" "${GIT_ID[@]}" add "$WF_PATH" >/dev/null 2>&1
 git -C "$WORKTREE" "${GIT_ID[@]}" commit -m "ci: add OIDC login smoke test" >/dev/null 2>&1
@@ -180,4 +212,8 @@ if [ "$concl" != "success" ]; then
 fi
 [ -n "$RUNNER" ] && [ -n "$JOB_RUNNER" ] && [ "$JOB_RUNNER" != "$RUNNER" ] && \
   echo "WARN: ran on '$JOB_RUNNER', expected '$RUNNER'." >&2
-echo "PASS: passwordless OIDC federation to Azure succeeded ✅"
+if [ "$USE_AZURE_LOGIN" = "true" ]; then
+  echo "PASS: azure/login@v2 passwordless login succeeded ✅"
+else
+  echo "PASS: passwordless OIDC federation to Azure succeeded ✅"
+fi

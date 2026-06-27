@@ -73,7 +73,10 @@ secrets.
 ```
 Pushes an `azure/login@v2` + `az account show` workflow over git+SSH, dispatches
 it, and asserts the run is `success`. For an environment-scoped subject, add
-`--environment <env>`.
+`--environment <env>`. By default the smoke job proves federation **without**
+needing `az` on the runner (curl token-exchange + ARM REST); add
+`--use-azure-login` to verify the real `azure/login@v2` pattern (needs a
+v0.6.3+ runner image).
 
 ### 4 — Add the production workflow
 Keep the verified pattern (or `.github/workflows/deploy-azure-oidc.yml` in this
@@ -82,11 +85,13 @@ three secrets, on a trigger that matches the FIC subject.
 
 > [!IMPORTANT]
 > `azure/login@v2` (and any `az` step) requires the **Azure CLI on the runner**.
-> This repo's `ghrunner` image does **not** ship `az`, so `azure/login` fails
-> with `Unable to locate executable file: az`. Either add `az` to the runner
-> image (image bump via the `ghrunner-ops` skill, then recreate the runner), or
-> use the **az-free token-exchange** pattern that `verify-oidc.sh` uses
-> (GitHub OIDC token → Entra token exchange → ARM REST with `curl`+`jq`).
+> This repo's `ghrunner` image includes `az` from **v0.6.3** onward; on older
+> images `azure/login` fails with `Unable to locate executable file: az` — bump
+> the image via the `ghrunner-ops` skill and recreate the runner. The az-free
+> token-exchange pattern that `verify-oidc.sh` uses by default needs no `az`.
+>
+> To verify the real `azure/login@v2` pattern (on a v0.6.3+ runner), add
+> `--use-azure-login` to `verify-oidc.sh`.
 
 ### 5 — Report / teardown
 On failure → [references/troubleshooting.md](./references/troubleshooting.md)

@@ -13,7 +13,7 @@ Symptoms appear in the `azure/login@v2` step. Most are **subject mismatches** or
 | `AADSTS700024: Client assertion is not within its valid time range` | Clock skew on a self-hosted runner | Sync time (NTP) on the runner host |
 | `AADSTS50020: User/identity does not exist in tenant` | App created in the wrong tenant | Recreate the app in the correct Entra tenant |
 | `AuthorizationFailed` on the first `az` command after login | SP has no role at that scope | Add the right role assignment (least privilege) |
-| `azure/login` fails: `Unable to locate executable file: az` | The **runner image has no Azure CLI** (this repo's `ghrunner` image does not ship `az`) | Add `az` to the runner image (image bump → `ghrunner-ops` A4+A3), or use the az-free OIDC token-exchange pattern that `verify-oidc.sh` uses (curl + jq) |
+| `azure/login` fails: `Unable to locate executable file: az` | The **runner image has no Azure CLI** | Use the `ghrunner` image **v0.6.3+** (the Azure CLI is baked in); older images need an image bump (`ghrunner-ops` A4+A3). Or use the az-free OIDC token-exchange pattern that `verify-oidc.sh` uses by default (curl + jq) |
 
 ## Debug the OIDC token claims (in a workflow step)
 
