@@ -120,7 +120,7 @@ Run the operation following its authoritative procedure:
 | `A1` | Inventory & reconcile ledger vs live state | read-only | [scripts/inventory.sh](./scripts/inventory.sh) |
 | `A2` | Add a runner for a repository | mutating | registry §"How to Add a New Runner" |
 | `A3` | Redeploy / recover a crashed runner | mutating | registry §"How to Redeploy a Crashed Runner" |
-| `A4` | Update the runner image (ACR push) | mutating | [references/operations.md](./references/operations.md) |
+| `A4` | Update the runner image (ACR push) | mutating | [references/operations.md](./references/operations.md) — release with the [`ghrunner-image-release`](../ghrunner-image-release/SKILL.md) skill |
 | `A5` | Remove / deregister a runner | mutating | registry §"How to Add" (delete block) |
 | `A6` | Rotate `GH_PAT` | mutating | registry §"GH_PAT — Setup and Rotation" |
 | `B1` | VM runner (Bicep) | mutating | `bicep/vm-runner/`, `docs/07-vm-automation.md` |

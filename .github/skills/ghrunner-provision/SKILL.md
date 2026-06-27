@@ -125,4 +125,5 @@ any runner once it is registered to the repo.
 - [`ghrunner-ops`](../ghrunner-ops/SKILL.md) — register/operate a permanent runner · [`ghrunner-triage`](../ghrunner-triage/SKILL.md) — diagnose failures
 - [`gha-azure-oidc`](../gha-azure-oidc/SKILL.md) — set up passwordless Azure auth for the repo's workflows after the runner is up
 - [`runner-workflow-onboard`](../runner-workflow-onboard/SKILL.md) — migrate the repo's workflows to self-hosted (`runs-on`) and verify them green
+- [`ghrunner-image-release`](../ghrunner-image-release/SKILL.md) — build/release the runner image this skill deploys
 - `docs/08-aci-setup.md`, `docs/06-07` (VM), `docs/09`/`docs/16` (ARC)
