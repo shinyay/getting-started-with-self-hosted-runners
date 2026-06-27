@@ -123,7 +123,7 @@ Run the operation following its authoritative procedure:
 | `A4` | Update the runner image (ACR push) | mutating | [references/operations.md](./references/operations.md) — release with the [`ghrunner-image-release`](../ghrunner-image-release/SKILL.md) skill |
 | `A5` | Remove / deregister a runner | mutating | registry §"How to Add" (delete block) |
 | `A6` | Rotate `GH_PAT` | mutating | registry §"GH_PAT — Setup and Rotation" |
-| `B1` | VM runner (Bicep) | mutating | `bicep/vm-runner/`, `docs/07-vm-automation.md` |
+| `B1` | VM runner (Bicep) | mutating | `bicep/vm-runner/`, `docs/07-vm-automation.md` — operate with the [`vm-runner-ops`](../vm-runner-ops/SKILL.md) skill |
 | `B2` | AKS + ARC autoscaling | mutating | `k8s/arc/`, `docs/09-aks-arc-setup.md` — operate with the [`arc-ops`](../arc-ops/SKILL.md) skill |
 | `C` | Image development (Dockerfile/entrypoint) | mutating | `containers/runner/` |
 | `D` | Docs maintenance (registry / guides) | safe | `docs/` |

@@ -126,4 +126,5 @@ any runner once it is registered to the repo.
 - [`gha-azure-oidc`](../gha-azure-oidc/SKILL.md) — set up passwordless Azure auth for the repo's workflows after the runner is up
 - [`runner-workflow-onboard`](../runner-workflow-onboard/SKILL.md) — migrate the repo's workflows to self-hosted (`runs-on`) and verify them green
 - [`ghrunner-image-release`](../ghrunner-image-release/SKILL.md) — build/release the runner image this skill deploys
+- [`vm-runner-ops`](../vm-runner-ops/SKILL.md) — the Azure VM sibling of this skill (Bicep + cloud-init runner)
 - `docs/08-aci-setup.md`, `docs/06-07` (VM), `docs/09`/`docs/16` (ARC)
