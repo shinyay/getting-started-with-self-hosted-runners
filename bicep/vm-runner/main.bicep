@@ -139,10 +139,16 @@ resource nic 'Microsoft.Network/networkInterfaces@2023-11-01' = {
 resource vm 'Microsoft.Compute/virtualMachines@2024-03-01' = {
   name: vmName
   location: location
+  dependsOn: [
+    identity
+  ]
   identity: {
     type: 'UserAssigned'
     userAssignedIdentities: {
-      '${identity.outputs.identityId}': {}
+      // Use a resourceId() the deployment can compute up front. A module output
+      // (identity.outputs.identityId) cannot key userAssignedIdentities (BCP120);
+      // the identity module creates this exact name, and dependsOn orders it.
+      '${resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', '${vmName}-identity')}': {}
     }
   }
   properties: {
