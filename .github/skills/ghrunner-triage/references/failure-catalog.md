@@ -39,7 +39,7 @@ Source: `docs/runner-registry.md` → Image versions.
 |----|-----------|-----------|---------------|
 | `AUTH-TOKEN-TTL` | ephemeral ACI runner **crash-loops after ~1h**; container logs show registration/`config.sh` token rejected | Registration token baked in env expired (1h TTL) on `EPHEMERAL=true`+`restart-policy=Always` | Recreate with fresh token (`A3`) or move to GH_PAT self-minting image ≥ `v0.6.0` (`A6`) — see `docs/runner-registry.md` |
 | `AUTH-PRIVATE-REPO` | `Repository not found` on a **private** repo (Copilot agent) | Vanilla self-hosted `GITHUB_TOKEN` lacks scopes the agent expects | Move repo to **ARC** (GitHub App auth), `docs/16`; or make repo public if appropriate (`docs/15` #4) |
-| `AUTH-ARC-CREDS` | ARC pod `CrashLoopBackOff`; `kubectl logs` shows auth/credential errors | Bad GitHub App credentials/secret | Recreate the GitHub App secret (`docs/09`/`docs/16`) |
+| `AUTH-ARC-CREDS` | ARC pod `CrashLoopBackOff`; `kubectl logs` shows auth/credential errors | Bad GitHub App credentials/secret | Recreate the GitHub App secret (`docs/09`/`docs/16`); apply via the `arc-ops` skill |
 
 ## WORKFLOW — workflow YAML / agent configuration
 
@@ -65,7 +65,7 @@ Source: `docs/runner-registry.md` → Image versions.
 | `INF-DNS` | `Could not resolve host` | DNS failure | Check DNS / `/etc/resolv.conf` / NSG egress; `docs/12`, `docs/04` |
 | `INF-RESOURCE` | job **timeout** or OOM-killed | Insufficient CPU/memory | Resize VM / raise ACI `--cpu`/`--memory`; `docs/12` |
 | `INF-ARC-PENDING` | ARC pods **Pending** | No schedulable nodes | Check cluster autoscaler / node pool; `docs/09` |
-| `INF-AKS-STOPPED` | ARC run stuck **`queued`** + `kubectl` returns `... no such host` for the AKS API | AKS cluster is **Stopped** | `az aks start`; then cancel stale runs, drain runners to 0, `gh run rerun`; `docs/09`/`docs/16` |
+| `INF-AKS-STOPPED` | ARC run stuck **`queued`** + `kubectl` returns `... no such host` for the AKS API | AKS cluster is **Stopped** | `az aks start`; then cancel stale runs, drain runners to 0, `gh run rerun`; `docs/09`/`docs/16`; operate via the `arc-ops` skill |
 
 ---
 

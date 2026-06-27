@@ -124,7 +124,7 @@ Run the operation following its authoritative procedure:
 | `A5` | Remove / deregister a runner | mutating | registry §"How to Add" (delete block) |
 | `A6` | Rotate `GH_PAT` | mutating | registry §"GH_PAT — Setup and Rotation" |
 | `B1` | VM runner (Bicep) | mutating | `bicep/vm-runner/`, `docs/07-vm-automation.md` |
-| `B2` | AKS + ARC autoscaling | mutating | `k8s/arc/`, `docs/09-aks-arc-setup.md` |
+| `B2` | AKS + ARC autoscaling | mutating | `k8s/arc/`, `docs/09-aks-arc-setup.md` — operate with the [`arc-ops`](../arc-ops/SKILL.md) skill |
 | `C` | Image development (Dockerfile/entrypoint) | mutating | `containers/runner/` |
 | `D` | Docs maintenance (registry / guides) | safe | `docs/` |
 
@@ -160,5 +160,6 @@ Full per-operation details: [references/operations.md](./references/operations.m
 - [`ghrunner-triage`](../ghrunner-triage/SKILL.md) — diagnose **why** a runner job failed, then return here to apply the fix
 - [`ghrunner-provision`](../ghrunner-provision/SKILL.md) — bring up & verify a new runner for a repo end-to-end
 - [`runner-workflow-onboard`](../runner-workflow-onboard/SKILL.md) — migrate a repo's workflows to self-hosted after adding a runner (A2)
+- [`arc-ops`](../arc-ops/SKILL.md) — the Kubernetes (AKS + ARC) sibling of this skill for autoscaling runners
 - `docs/runner-registry.md` — authoritative ledger and procedures
 - `docs/08-aci-setup.md`, `docs/15-copilot-coding-agent.md` — ACI & Copilot agent specifics
