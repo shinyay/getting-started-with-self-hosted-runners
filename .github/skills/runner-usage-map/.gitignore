@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*.pem
+reports/
+*.usage.json
+*.usage.md
+*.usage.csv

@@ -101,4 +101,5 @@ Plus: `actions/setup-node` → `node-version: '20'`, `actions/setup-python` →
 - [references/verification.md](./references/verification.md) — verify a migrated workflow green
 - [scripts/transform_workflow.py](./scripts/transform_workflow.py) · [scripts/migrate-workflows.sh](./scripts/migrate-workflows.sh) · [scripts/verify-migration.sh](./scripts/verify-migration.sh)
 - [`ghrunner-provision`](../ghrunner-provision/SKILL.md) · [`ghrunner-ops`](../ghrunner-ops/SKILL.md) · [`ghrunner-triage`](../ghrunner-triage/SKILL.md) · [`gha-azure-oidc`](../gha-azure-oidc/SKILL.md)
+- [`runner-usage-map`](../runner-usage-map/SKILL.md) — finds the GitHub-hosted repos to migrate (delegates here)
 - `docs/13-sample-workflows.md`, `docs/runner-registry.md` (Step 5), `docs/15-copilot-coding-agent.md`

@@ -1,0 +1,131 @@
+{
+  "meta": {
+    "owner": "demo",
+    "active_days": 30,
+    "now": "2026-06-27T00:00:00Z"
+  },
+  "repos": [
+    {
+      "name": "demo/hosted",
+      "visibility": "public",
+      "actions_enabled": true,
+      "last_run_at": "2026-06-20T00:00:00Z",
+      "workflows": [
+        {
+          "name": "ci",
+          "state": "active",
+          "runs_on": [
+            "ubuntu-latest"
+          ]
+        }
+      ],
+      "runners": []
+    },
+    {
+      "name": "demo/sh-online",
+      "visibility": "private",
+      "actions_enabled": true,
+      "last_run_at": "2026-06-25T00:00:00Z",
+      "workflows": [
+        {
+          "name": "ci",
+          "state": "active",
+          "runs_on": [
+            "[self-hosted, linux]"
+          ]
+        }
+      ],
+      "runners": [
+        {
+          "name": "r1",
+          "status": "online",
+          "busy": false
+        }
+      ]
+    },
+    {
+      "name": "demo/sh-offline",
+      "visibility": "private",
+      "actions_enabled": true,
+      "last_run_at": "2026-06-26T00:00:00Z",
+      "workflows": [
+        {
+          "name": "ci",
+          "state": "active",
+          "runs_on": [
+            "self-hosted"
+          ]
+        }
+      ],
+      "runners": [
+        {
+          "name": "r1",
+          "status": "offline",
+          "busy": false
+        }
+      ]
+    },
+    {
+      "name": "demo/mixed",
+      "visibility": "public",
+      "actions_enabled": true,
+      "last_run_at": "2026-06-26T00:00:00Z",
+      "workflows": [
+        {
+          "name": "ci",
+          "state": "active",
+          "runs_on": [
+            "ubuntu-latest",
+            "self-hosted"
+          ]
+        }
+      ],
+      "runners": [
+        {
+          "name": "r1",
+          "status": "online"
+        }
+      ]
+    },
+    {
+      "name": "demo/dynamic",
+      "visibility": "public",
+      "actions_enabled": true,
+      "last_run_at": "2026-06-26T00:00:00Z",
+      "workflows": [
+        {
+          "name": "ci",
+          "state": "active",
+          "runs_on": [
+            "${{ matrix.os }}"
+          ]
+        }
+      ],
+      "runners": []
+    },
+    {
+      "name": "demo/none",
+      "visibility": "public",
+      "actions_enabled": true,
+      "last_run_at": null,
+      "workflows": [],
+      "runners": []
+    },
+    {
+      "name": "demo/disabled",
+      "visibility": "public",
+      "actions_enabled": false,
+      "last_run_at": "2026-06-26T00:00:00Z",
+      "workflows": [
+        {
+          "name": "ci",
+          "state": "active",
+          "runs_on": [
+            "ubuntu-latest"
+          ]
+        }
+      ],
+      "runners": []
+    }
+  ]
+}

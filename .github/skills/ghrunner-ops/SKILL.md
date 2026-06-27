@@ -164,5 +164,6 @@ Full per-operation details: [references/operations.md](./references/operations.m
 - [`runner-hardening-audit`](../runner-hardening-audit/SKILL.md) — read-only security posture audit of the fleet (stale images, non-ephemeral, PAT-in-env, exposure)
 - [`runner-fleet-health`](../runner-fleet-health/SKILL.md) — health snapshot & monitoring (availability, queue/wait, success rate, capacity)
 - [`runner-cost-optimizer`](../runner-cost-optimizer/SKILL.md) — fleet cost report & right-sizing / scale-to-zero savings
+- [`runner-usage-map`](../runner-usage-map/SKILL.md) — cross-repo census: which repos use self-hosted vs GitHub-hosted, Active status, offline-runner flags
 - `docs/runner-registry.md` — authoritative ledger and procedures
 - `docs/08-aci-setup.md`, `docs/15-copilot-coding-agent.md` — ACI & Copilot agent specifics
