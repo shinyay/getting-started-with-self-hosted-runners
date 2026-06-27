@@ -124,4 +124,5 @@ any runner once it is registered to the repo.
 - [scripts/provision-aci.sh](./scripts/provision-aci.sh) · [scripts/verify-runner.sh](./scripts/verify-runner.sh) · [scripts/teardown.sh](./scripts/teardown.sh)
 - [`ghrunner-ops`](../ghrunner-ops/SKILL.md) — register/operate a permanent runner · [`ghrunner-triage`](../ghrunner-triage/SKILL.md) — diagnose failures
 - [`gha-azure-oidc`](../gha-azure-oidc/SKILL.md) — set up passwordless Azure auth for the repo's workflows after the runner is up
+- [`runner-workflow-onboard`](../runner-workflow-onboard/SKILL.md) — migrate the repo's workflows to self-hosted (`runs-on`) and verify them green
 - `docs/08-aci-setup.md`, `docs/06-07` (VM), `docs/09`/`docs/16` (ARC)

@@ -159,5 +159,6 @@ Full per-operation details: [references/operations.md](./references/operations.m
 - [scripts/inventory.sh](./scripts/inventory.sh) — read-only reconciliation (A1)
 - [`ghrunner-triage`](../ghrunner-triage/SKILL.md) — diagnose **why** a runner job failed, then return here to apply the fix
 - [`ghrunner-provision`](../ghrunner-provision/SKILL.md) — bring up & verify a new runner for a repo end-to-end
+- [`runner-workflow-onboard`](../runner-workflow-onboard/SKILL.md) — migrate a repo's workflows to self-hosted after adding a runner (A2)
 - `docs/runner-registry.md` — authoritative ledger and procedures
 - `docs/08-aci-setup.md`, `docs/15-copilot-coding-agent.md` — ACI & Copilot agent specifics
