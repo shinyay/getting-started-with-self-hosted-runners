@@ -135,4 +135,5 @@ python3 "$S/audit_rules.py" "$S/fixtures/good-fleet.json" # demo: ✅ PASS
 - **ghrunner-image-release** — image build/release (A1, A5)
 - **gha-azure-oidc** / **github-app-runner-auth** — passwordless auth (A3)
 - **vm-runner-ops** / **arc-ops** — VM and AKS/ARC lifecycle (Group C)
+- **runner-fleet-health** — health & monitoring sibling (shares image-drift / capacity signals)
 - Ledger: **`docs/runner-registry.md`**

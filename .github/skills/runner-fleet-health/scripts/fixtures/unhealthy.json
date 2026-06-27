@@ -1,0 +1,17 @@
+{
+  "meta": {"expected_runners": 1},
+  "containers": [],
+  "repos": [
+    {
+      "full_name": "shinyay/ex",
+      "runners": [{"name": "r1", "status": "offline", "busy": false}],
+      "recent_runs": [
+        {"status": "queued", "conclusion": null, "created_at": "2026-06-27T02:00:00Z", "run_started_at": null},
+        {"status": "completed", "conclusion": "failure", "created_at": "2026-06-27T00:00:00Z", "run_started_at": "2026-06-27T00:00:03Z"},
+        {"status": "completed", "conclusion": "failure", "created_at": "2026-06-27T00:10:00Z", "run_started_at": "2026-06-27T00:10:03Z"},
+        {"status": "completed", "conclusion": "failure", "created_at": "2026-06-27T00:20:00Z", "run_started_at": "2026-06-27T00:20:03Z"},
+        {"status": "completed", "conclusion": "success", "created_at": "2026-06-27T00:30:00Z", "run_started_at": "2026-06-27T00:30:03Z"}
+      ]
+    }
+  ]
+}

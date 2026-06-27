@@ -162,5 +162,6 @@ Full per-operation details: [references/operations.md](./references/operations.m
 - [`runner-workflow-onboard`](../runner-workflow-onboard/SKILL.md) — migrate a repo's workflows to self-hosted after adding a runner (A2)
 - [`arc-ops`](../arc-ops/SKILL.md) — the Kubernetes (AKS + ARC) sibling of this skill for autoscaling runners
 - [`runner-hardening-audit`](../runner-hardening-audit/SKILL.md) — read-only security posture audit of the fleet (stale images, non-ephemeral, PAT-in-env, exposure)
+- [`runner-fleet-health`](../runner-fleet-health/SKILL.md) — health snapshot & monitoring (availability, queue/wait, success rate, capacity)
 - `docs/runner-registry.md` — authoritative ledger and procedures
 - `docs/08-aci-setup.md`, `docs/15-copilot-coding-agent.md` — ACI & Copilot agent specifics

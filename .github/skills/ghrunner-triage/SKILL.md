@@ -128,4 +128,5 @@ it — direct the user to the `ghrunner-ops` operation or doc below.
 - [`ghrunner-provision`](../ghrunner-provision/SKILL.md) — provision & verify a runner (bring-up / prevention)
 - [`gha-azure-oidc`](../gha-azure-oidc/SKILL.md) — passwordless GitHub→Azure auth for workflows
 - [`runner-hardening-audit`](../runner-hardening-audit/SKILL.md) — audit posture (A6 unhealthy runners feed triage)
+- [`runner-fleet-health`](../runner-fleet-health/SKILL.md) — health snapshot surfaces low success rate / offline runners to triage
 - `docs/12`, `docs/15`, `docs/09`, `docs/16`, `docs/runner-registry.md` — source troubleshooting knowledge

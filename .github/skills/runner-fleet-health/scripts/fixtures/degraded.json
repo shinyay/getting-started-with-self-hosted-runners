@@ -1,0 +1,28 @@
+{
+  "meta": {"expected_runners": 2},
+  "containers": [
+    {"name": "c1", "state": "Running", "restart_count": 12, "ephemeral": false, "image_tag": "v0.6.0", "repo": "shinyay/ex"},
+    {"name": "c2", "state": "Running", "restart_count": 200, "ephemeral": true, "image_tag": "v0.6.3", "repo": "shinyay/ex"}
+  ],
+  "repos": [
+    {
+      "full_name": "shinyay/ex",
+      "runners": [
+        {"name": "r1", "status": "online", "busy": false},
+        {"name": "r2", "status": "offline", "busy": false}
+      ],
+      "recent_runs": [
+        {"status": "completed", "conclusion": "success", "created_at": "2026-06-27T00:00:00Z", "run_started_at": "2026-06-27T00:05:00Z"},
+        {"status": "completed", "conclusion": "success", "created_at": "2026-06-27T00:10:00Z", "run_started_at": "2026-06-27T00:10:03Z"},
+        {"status": "completed", "conclusion": "success", "created_at": "2026-06-27T00:20:00Z", "run_started_at": "2026-06-27T00:20:03Z"},
+        {"status": "completed", "conclusion": "success", "created_at": "2026-06-27T00:30:00Z", "run_started_at": "2026-06-27T00:30:03Z"},
+        {"status": "completed", "conclusion": "success", "created_at": "2026-06-27T00:40:00Z", "run_started_at": "2026-06-27T00:40:03Z"},
+        {"status": "completed", "conclusion": "success", "created_at": "2026-06-27T00:50:00Z", "run_started_at": "2026-06-27T00:50:03Z"},
+        {"status": "completed", "conclusion": "success", "created_at": "2026-06-27T01:00:00Z", "run_started_at": "2026-06-27T01:00:03Z"},
+        {"status": "completed", "conclusion": "failure", "created_at": "2026-06-27T01:10:00Z", "run_started_at": "2026-06-27T01:10:03Z"},
+        {"status": "completed", "conclusion": "failure", "created_at": "2026-06-27T01:20:00Z", "run_started_at": "2026-06-27T01:20:03Z"},
+        {"status": "completed", "conclusion": "failure", "created_at": "2026-06-27T01:30:00Z", "run_started_at": "2026-06-27T01:30:03Z"}
+      ]
+    }
+  ]
+}
