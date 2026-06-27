@@ -72,7 +72,10 @@ runner we provisioned.
       (local) / platform teardown (VM/ARC)
 - [ ] Delete throwaway ACR tag: `az acr repository delete -n shinyayacr202604
       --image ghrunner:<tag> --yes`
-- [ ] Remove the smoke workflow from the repo (or delete the throwaway repo)
+- [ ] Remove the smoke workflow from the repo (git+SSH; the verify script does this)
+- [ ] **Repository deletion is Human-in-the-Loop** — `teardown.sh --show-repo-delete`
+      prints the command; the user runs it (web UI Danger Zone, or
+      `gh repo delete <owner>/<repo> --yes` with `delete_repo` scope)
 - [ ] Confirm: `az container list -g ghrunner-rg -o table` has no `<name>`, and
       `gh api repos/<owner>/<repo>/actions/runners` no longer lists it
 

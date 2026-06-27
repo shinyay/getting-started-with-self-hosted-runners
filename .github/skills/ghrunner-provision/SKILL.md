@@ -35,7 +35,8 @@ clean **teardown**.
 - Repo admin on the target (needed to mint a registration token)
 - `git` + **SSH push access** to the target repo — `verify-runner.sh` pushes the
   smoke workflow over SSH, so the `workflow` token scope is **not** required
-- `teardown.sh --delete-repo` needs the `delete_repo` token scope
+- Repository deletion is **Human-in-the-Loop** — `teardown.sh --show-repo-delete`
+  prints the command for you to run; the skill never deletes repos
 
 ## Guardrails
 
@@ -48,6 +49,9 @@ clean **teardown**.
 - Writing the smoke workflow to a **real** repo: warn first, use the clear
   filename `runner-smoke.yml`, and remove it afterwards (the verify script does).
 - Always offer `teardown.sh` after a test.
+- **Irreversible operations are Human-in-the-Loop**: repository deletion (and
+  similar destructive actions) are never executed by the skill — emit the exact
+  command for the user to run. The skill's token does not need `delete_repo`.
 
 ## Flow
 
@@ -86,8 +90,8 @@ Then tear down throwaway resources:
 ```bash
 ./.github/skills/ghrunner-provision/scripts/teardown.sh \
   --repo OWNER/REPO --runner ghrunner-aci-smoke --container ghrunner-aci-smoke \
-  --acr-tag smoke-test --smoke-workflow --yes
-# add --delete-repo to remove a throwaway test repository
+  --acr-tag smoke-test --smoke-workflow --show-repo-delete --yes
+# Repo deletion is Human-in-the-Loop: --show-repo-delete prints the command for YOU to run.
 ```
 For a **permanent** runner instead, record it in `docs/runner-registry.md` via
 the **ghrunner-ops** skill.

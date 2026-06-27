@@ -12,18 +12,19 @@
 #   --local-container NAME   docker container to remove (-f)
 #   --local-image REF        docker image to remove (rmi)
 #   --smoke-workflow         delete .github/workflows/runner-smoke.yml from --repo
-#   --delete-repo            DELETE the --repo entirely (needs --yes)
+#   --show-repo-delete       print (do NOT run) the Human-in-the-Loop repo-delete command
 #   --resource-group RG      default: ghrunner-rg
 #   --acr NAME               default: shinyayacr202604
 #   --subscription ID        az subscription (never az account set)
 #   --yes                    confirm destructive actions
 #   --help
-# Safety: refuses to delete fleet containers ghrunner-aci-01..11 or :latest.
+# Safety: refuses to delete fleet containers ghrunner-aci-01..11 or :latest, and
+# never deletes a repository — repo deletion is a Human-in-the-Loop step.
 
 set -uo pipefail
 
 REPO=""; RUNNER=""; CONTAINER=""; ACR_TAG=""
-LOCAL_CONTAINER=""; LOCAL_IMAGE=""; SMOKE_WF="false"; DELETE_REPO="false"
+LOCAL_CONTAINER=""; LOCAL_IMAGE=""; SMOKE_WF="false"; SHOW_REPO_DELETE="false"
 RG="ghrunner-rg"; ACR="shinyayacr202604"; SUBSCRIPTION=""; YES="false"
 WF_PATH=".github/workflows/runner-smoke.yml"
 
@@ -38,7 +39,7 @@ while [ $# -gt 0 ]; do
     --local-container) LOCAL_CONTAINER="${2:?}"; shift 2;;
     --local-image) LOCAL_IMAGE="${2:?}"; shift 2;;
     --smoke-workflow) SMOKE_WF="true"; shift;;
-    --delete-repo) DELETE_REPO="true"; shift;;
+    --show-repo-delete) SHOW_REPO_DELETE="true"; shift;;
     --resource-group) RG="${2:?}"; shift 2;;
     --acr) ACR="${2:?}"; shift 2;;
     --subscription) SUBSCRIPTION="${2:?}"; shift 2;;
@@ -99,7 +100,7 @@ if [ -n "$LOCAL_IMAGE" ] && command -v docker >/dev/null 2>&1; then
 fi
 
 # 5. Remove the smoke workflow via git+SSH (no 'workflow' scope needed).
-if [ "$SMOKE_WF" = "true" ] && [ -n "$REPO" ] && [ "$DELETE_REPO" != "true" ] && command -v git >/dev/null 2>&1; then
+if [ "$SMOKE_WF" = "true" ] && [ -n "$REPO" ] && command -v git >/dev/null 2>&1; then
   WT="$(mktemp -d)"
   GID=(-c user.name=ghrunner-provision -c user.email=ghrunner-provision@users.noreply.github.com)
   if git clone --depth 1 "git@github.com:$REPO.git" "$WT" >/dev/null 2>&1 && [ -f "$WT/$WF_PATH" ]; then
@@ -110,10 +111,11 @@ if [ "$SMOKE_WF" = "true" ] && [ -n "$REPO" ] && [ "$DELETE_REPO" != "true" ] &&
   rm -rf "$WT"
 fi
 
-# 6. Delete the throwaway repo.
-if [ "$DELETE_REPO" = "true" ] && [ -n "$REPO" ]; then
-  need_yes "DELETE repository $REPO"
-  gh repo delete "$REPO" --yes >/dev/null 2>&1 && echo ">>> Deleted repo $REPO." || echo "WARN: could not delete $REPO (needs delete_repo scope)."
+# 6. Repository deletion is Human-in-the-Loop (irreversible) — print, never run.
+if [ "$SHOW_REPO_DELETE" = "true" ] && [ -n "$REPO" ]; then
+  echo ">>> Repository deletion is a Human-in-the-Loop step — run it yourself:"
+  echo "      web UI : https://github.com/$REPO/settings  (Danger Zone -> Delete this repository)"
+  echo "      or CLI : gh auth refresh -h github.com -s delete_repo && gh repo delete $REPO --yes"
 fi
 
 echo ">>> Teardown complete."
