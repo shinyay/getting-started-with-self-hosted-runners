@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "resource_group": "ghrunner-rg",
+    "latest_image_tag": "v0.6.3",
+    "trusted_registry": "shinyayacr202604.azurecr.io"
+  },
+  "containers": [
+    {
+      "name": "aci-stale",
+      "state": "Running",
+      "image": "shinyayacr202604.azurecr.io/ghrunner:v0.6.0",
+      "image_tag": "v0.6.0",
+      "image_registry": "shinyayacr202604.azurecr.io",
+      "restart_count": 3,
+      "ephemeral": true,
+      "restart_policy": "Always",
+      "env_keys": ["EPHEMERAL", "RUNNER_LABELS"],
+      "ip_type": null,
+      "repo": "shinyay/example",
+      "repo_visibility": "private"
+    },
+    {
+      "name": "aci-pat-public",
+      "state": "Running",
+      "image": "shinyayacr202604.azurecr.io/ghrunner:v0.6.3",
+      "image_tag": "v0.6.3",
+      "image_registry": "shinyayacr202604.azurecr.io",
+      "restart_count": 0,
+      "ephemeral": false,
+      "restart_policy": "Never",
+      "env_keys": ["RUNNER_LABELS", "GH_PAT"],
+      "ip_type": null,
+      "repo": "shinyay/public-example",
+      "repo_visibility": "public"
+    },
+    {
+      "name": "aci-untrusted",
+      "state": "Terminated",
+      "provisioning_state": "Succeeded",
+      "image": "docker.io/library/ghrunner:latest",
+      "image_tag": "latest",
+      "image_registry": "docker.io",
+      "restart_count": 41,
+      "ephemeral": false,
+      "restart_policy": "Never",
+      "env_keys": ["RUNNER_LABELS"],
+      "ip_type": "Public",
+      "repo": null,
+      "repo_visibility": null
+    }
+  ]
+}

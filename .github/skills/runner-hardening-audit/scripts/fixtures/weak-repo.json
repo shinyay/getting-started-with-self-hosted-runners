@@ -1,0 +1,15 @@
+{
+  "meta": {},
+  "repo": {
+    "full_name": "shinyay/weak-example",
+    "visibility": "public",
+    "actions_enabled": true,
+    "allowed_actions": "all",
+    "default_workflow_permissions": "write",
+    "fork_pr_approval": "unknown",
+    "self_hosted_runners": [
+      {"name": "weak-runner-1", "status": "online", "ephemeral": false},
+      {"name": "weak-runner-2", "status": "offline", "ephemeral": null}
+    ]
+  }
+}

@@ -101,5 +101,5 @@ exact names are what the `gha-runner-scale-set` chart expects.
 
 - [references/github-app-setup.md](./references/github-app-setup.md) — HITL App creation + key handling
 - [references/arc-app-auth.md](./references/arc-app-auth.md) — ARC App secret + verification chain
-- [`arc-ops`](../arc-ops/SKILL.md) (`arc-up.sh --auth app`) · [`ghrunner-triage`](../ghrunner-triage/SKILL.md) (`AUTH-ARC-CREDS`) · [`ghrunner-ops`](../ghrunner-ops/SKILL.md)
+- [`arc-ops`](../arc-ops/SKILL.md) (`arc-up.sh --auth app`) · [`ghrunner-triage`](../ghrunner-triage/SKILL.md) (`AUTH-ARC-CREDS`) · [`ghrunner-ops`](../ghrunner-ops/SKILL.md) · [`runner-hardening-audit`](../runner-hardening-audit/SKILL.md) (A3 long-lived PAT-in-env; App auth is the fix)
 - `docs/09-aks-arc-setup.md` (Part 2), `docs/16-copilot-agent-arc-end-to-end.md` (§3–4), `k8s/arc/values.yaml`

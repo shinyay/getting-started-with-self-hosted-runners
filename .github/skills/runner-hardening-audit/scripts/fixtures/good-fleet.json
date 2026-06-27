@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "resource_group": "ghrunner-rg",
+    "latest_image_tag": "v0.6.3",
+    "trusted_registry": "shinyayacr202604.azurecr.io"
+  },
+  "containers": [
+    {
+      "name": "ghrunner-aci-good",
+      "state": "Running",
+      "image": "shinyayacr202604.azurecr.io/ghrunner:v0.6.3",
+      "image_tag": "v0.6.3",
+      "image_registry": "shinyayacr202604.azurecr.io",
+      "restart_count": 7,
+      "ephemeral": true,
+      "restart_policy": "Always",
+      "env_keys": ["EPHEMERAL", "RUNNER_LABELS", "REPO_URL"],
+      "ip_type": null,
+      "repo": "shinyay/example",
+      "repo_visibility": "private"
+    }
+  ]
+}

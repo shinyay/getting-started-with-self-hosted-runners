@@ -130,5 +130,5 @@ Full table + token-claim debug + MCAPS note: [references/troubleshooting.md](./r
 - [references/federated-credentials.md](./references/federated-credentials.md) — subject cookbook + role scoping
 - [references/troubleshooting.md](./references/troubleshooting.md) — AADSTS* + OIDC token-claim debug
 - [scripts/setup-oidc.sh](./scripts/setup-oidc.sh) · [scripts/verify-oidc.sh](./scripts/verify-oidc.sh) · [scripts/teardown-oidc.sh](./scripts/teardown-oidc.sh)
-- [`ghrunner-provision`](../ghrunner-provision/SKILL.md) — supply a runner for the verify job · [`ghrunner-triage`](../ghrunner-triage/SKILL.md) — runner-side failures
+- [`ghrunner-provision`](../ghrunner-provision/SKILL.md) — supply a runner for the verify job · [`ghrunner-triage`](../ghrunner-triage/SKILL.md) — runner-side failures · [`runner-hardening-audit`](../runner-hardening-audit/SKILL.md) — A3 flags long-lived PAT-in-env (OIDC is the fix)
 - `docs/10-oidc-workload-identity.md`, `.github/workflows/deploy-azure-oidc.yml`, `bicep/modules/identity.bicep`

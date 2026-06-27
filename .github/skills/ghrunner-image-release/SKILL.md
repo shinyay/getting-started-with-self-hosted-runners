@@ -102,5 +102,5 @@ runner's recorded version changed.
 
 - [references/release-process.md](./references/release-process.md) — process, `:latest` rule, version history
 - [references/verification.md](./references/verification.md) — capability-check verification
-- [`ghrunner-provision`](../ghrunner-provision/SKILL.md) (deploys the image) · [`ghrunner-ops`](../ghrunner-ops/SKILL.md) (A4 image update / registry) · [`ghrunner-triage`](../ghrunner-triage/SKILL.md) (IMG-* signatures)
+- [`ghrunner-provision`](../ghrunner-provision/SKILL.md) (deploys the image) · [`ghrunner-ops`](../ghrunner-ops/SKILL.md) (A4 image update / registry) · [`ghrunner-triage`](../ghrunner-triage/SKILL.md) (IMG-* signatures) · [`runner-hardening-audit`](../runner-hardening-audit/SKILL.md) (A1/A5 image freshness & provenance)
 - `containers/runner/Dockerfile`, `docs/runner-registry.md` (Image versions), `docs/08-aci-setup.md`
