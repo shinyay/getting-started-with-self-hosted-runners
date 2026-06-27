@@ -133,3 +133,4 @@ python3 "$S/health_rules.py" "$S/fixtures/unhealthy.json" # ❌ UNHEALTHY
 - **runner-hardening-audit** — security posture sibling (shares image-drift)
 - **arc-ops** — AKS+ARC autoscaling (H2 capacity)
 - Ledger: **`docs/runner-registry.md`** · Doc: **`docs/12-monitoring-maintenance.md`**
+- [`runner-cost-optimizer`](../runner-cost-optimizer/SKILL.md) — turns the same H6 utilization into cost savings

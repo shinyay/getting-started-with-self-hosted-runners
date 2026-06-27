@@ -1,0 +1,10 @@
+{
+  "meta": {"region":"eastus","rates":{"vcpu_second":0.0000135,"mem_gb_second":0.0000015,"source":"static-default"},
+           "seconds_per_month":2628000,"baseline_cpu":1.0,"baseline_mem_gb":2.0,
+           "low_util_pct":15.0,"very_low_util_pct":10.0,"high_util_pct":60.0,"offhours_save_frac":0.60},
+  "containers": [
+    {"name":"aci-idle","cpu":2.0,"memory_gb":4.0,"running":true,"repo":"o/idle","util_pct":3.0},
+    {"name":"aci-busy","cpu":2.0,"memory_gb":4.0,"running":true,"repo":"o/busy","util_pct":75.0},
+    {"name":"aci-unknown","cpu":2.0,"memory_gb":4.0,"running":true,"repo":null,"util_pct":null}
+  ]
+}

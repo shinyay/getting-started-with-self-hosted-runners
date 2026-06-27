@@ -1,0 +1,8 @@
+{
+  "meta": {"region":"eastus","rates":{"vcpu_second":0.0000135,"mem_gb_second":0.0000015,"source":"static-default"},
+           "seconds_per_month":2628000,"baseline_cpu":1.0,"baseline_mem_gb":2.0,
+           "low_util_pct":15.0,"very_low_util_pct":10.0,"high_util_pct":60.0,"offhours_save_frac":0.60},
+  "containers": [
+    {"name":"aci-right","cpu":1.0,"memory_gb":2.0,"running":true,"repo":"o/ok","util_pct":40.0}
+  ]
+}

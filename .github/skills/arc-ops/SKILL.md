@@ -111,4 +111,5 @@ Full catalog: [references/troubleshooting.md](./references/troubleshooting.md).
 - [scripts/arc-up.sh](./scripts/arc-up.sh) · [scripts/arc-verify.sh](./scripts/arc-verify.sh) · [scripts/arc-down.sh](./scripts/arc-down.sh)
 - [`ghrunner-ops`](../ghrunner-ops/SKILL.md) (ACI sibling) · [`ghrunner-triage`](../ghrunner-triage/SKILL.md) (`INF-AKS-STOPPED`, `AUTH-ARC-CREDS`) · [`runner-workflow-onboard`](../runner-workflow-onboard/SKILL.md)
 - [`github-app-runner-auth`](../github-app-runner-auth/SKILL.md) — authenticate ARC with a GitHub App (`arc-up.sh --auth app`)
+- [`runner-cost-optimizer`](../runner-cost-optimizer/SKILL.md) — recommends ARC migration for idle ACI runners (R3 scale-to-zero)
 - `docs/09-aks-arc-setup.md`, `docs/16-copilot-agent-arc-end-to-end.md`, `k8s/arc/*`

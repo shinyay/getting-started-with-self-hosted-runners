@@ -99,4 +99,5 @@ vm]` (labels default `azure,linux,x64,vm`). See
 - [references/verification.md](./references/verification.md) — verify a VM runner green
 - [scripts/vm-up.sh](./scripts/vm-up.sh) · [scripts/vm-verify.sh](./scripts/vm-verify.sh) · [scripts/vm-down.sh](./scripts/vm-down.sh)
 - [`ghrunner-provision`](../ghrunner-provision/SKILL.md) (ACI) · [`arc-ops`](../arc-ops/SKILL.md) (AKS) · [`runner-workflow-onboard`](../runner-workflow-onboard/SKILL.md) · [`ghrunner-triage`](../ghrunner-triage/SKILL.md)
+- [`runner-cost-optimizer`](../runner-cost-optimizer/SKILL.md) — VM Spot / auto-shutdown / reserved cost levers (catalog)
 - `bicep/vm-runner/`, `scripts/vm/cloud-init-runner.yaml`, `docs/06-vm-manual-setup.md`, `docs/07-vm-automation.md`
