@@ -91,7 +91,7 @@ is Human-in-the-Loop.
 | Method | Secret keys | When |
 |--------|-------------|------|
 | token / PAT | `github_token` | default; simplest (repo/org admin) |
-| GitHub App | `github_app_id`, `github_app_installation_id`, `github_app_private_key` | orgs / private repos (docs/16) |
+| GitHub App | `github_app_id`, `github_app_installation_id`, `github_app_private_key` | orgs / private repos (docs/16) — automate with the [`github-app-runner-auth`](../github-app-runner-auth/SKILL.md) skill (`arc-up.sh --auth app`) |
 
 ## Troubleshooting (top)
 
@@ -110,4 +110,5 @@ Full catalog: [references/troubleshooting.md](./references/troubleshooting.md).
 - [references/troubleshooting.md](./references/troubleshooting.md) — ARC failure catalog
 - [scripts/arc-up.sh](./scripts/arc-up.sh) · [scripts/arc-verify.sh](./scripts/arc-verify.sh) · [scripts/arc-down.sh](./scripts/arc-down.sh)
 - [`ghrunner-ops`](../ghrunner-ops/SKILL.md) (ACI sibling) · [`ghrunner-triage`](../ghrunner-triage/SKILL.md) (`INF-AKS-STOPPED`, `AUTH-ARC-CREDS`) · [`runner-workflow-onboard`](../runner-workflow-onboard/SKILL.md)
+- [`github-app-runner-auth`](../github-app-runner-auth/SKILL.md) — authenticate ARC with a GitHub App (`arc-up.sh --auth app`)
 - `docs/09-aks-arc-setup.md`, `docs/16-copilot-agent-arc-end-to-end.md`, `k8s/arc/*`

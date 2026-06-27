@@ -21,9 +21,13 @@
 #   --ns-runners NS         runners namespace (default: arc-runners)
 #   --secret-name NAME      k8s secret name (default: arc-github-secret)
 #   --github-token GH_AUTH    ARC auth token (default: `gh auth token`)
+#   --auth token|app        auth method (default: token)
+#   --github-app-id ID      (--auth app) GitHub App id
+#   --installation-id N     (--auth app) App installation id
+#   --private-key-file PATH (--auth app) App private key (.pem)
 #   --subscription ID       az subscription (never az account set)
 #   --help
-# The token is written only into the cluster secret; it is never echoed.
+# The token/App key is written only into the cluster secret; it is never echoed.
 
 set -uo pipefail
 
@@ -31,6 +35,7 @@ RG="rg-arc-ops"; AKS="aks-arc-ops"; LOCATION="eastus"; PROVISION="false"
 NODE_SIZE="Standard_D2s_v3"; SCALE_SET="arc-runner-set"; MIN=0; MAX=2
 NS_CTL="arc-systems"; NS_RUN="arc-runners"; SECRET_NAME="arc-github-secret"
 GH_AUTH=""; SUBSCRIPTION=""; REPO=""
+AUTH="token"; APP_ID=""; APP_INSTALL_ID=""; APP_KEY_FILE=""
 CTRL_CHART="oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller"
 SS_CHART="oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set"
 
@@ -50,6 +55,10 @@ while [ $# -gt 0 ]; do
     --ns-runners) NS_RUN="${2:?}"; shift 2;;
     --secret-name) SECRET_NAME="${2:?}"; shift 2;;
     --github-token) GH_AUTH="${2:?}"; shift 2;;
+    --auth) AUTH="${2:?}"; shift 2;;
+    --github-app-id) APP_ID="${2:?}"; shift 2;;
+    --installation-id) APP_INSTALL_ID="${2:?}"; shift 2;;
+    --private-key-file) APP_KEY_FILE="${2:?}"; shift 2;;
     --subscription) SUBSCRIPTION="${2:?}"; shift 2;;
     -h|--help) usage; exit 0;;
     -*) echo "Unknown option: $1" >&2; usage; exit 2;;
@@ -63,9 +72,16 @@ for b in az kubectl helm gh; do command -v "$b" >/dev/null 2>&1 || { echo "ERROR
 AZ_SUB=(); [ -n "$SUBSCRIPTION" ] && AZ_SUB=(--subscription "$SUBSCRIPTION")
 REPO_URL="https://github.com/$REPO"
 
-# Resolve the ARC auth token (never echo it).
-[ -n "$GH_AUTH" ] || GH_AUTH="$(gh auth token 2>/dev/null)"
-[ -n "$GH_AUTH" ] || { echo "ERROR: no GitHub token (pass --github-token or run 'gh auth login')" >&2; exit 1; }
+# Resolve auth (never echo secrets).
+if [ "$AUTH" = "app" ]; then
+  [ -n "$APP_ID" ] && [ -n "$APP_INSTALL_ID" ] && [ -f "$APP_KEY_FILE" ] \
+    || { echo "ERROR: --auth app needs --github-app-id, --installation-id and --private-key-file" >&2; exit 1; }
+elif [ "$AUTH" = "token" ]; then
+  [ -n "$GH_AUTH" ] || GH_AUTH="$(gh auth token 2>/dev/null)"
+  [ -n "$GH_AUTH" ] || { echo "ERROR: no GitHub token (pass --github-token or run 'gh auth login')" >&2; exit 1; }
+else
+  echo "ERROR: --auth must be 'token' or 'app'" >&2; exit 2
+fi
 
 echo ">>> Repo: $REPO  scale-set: $SCALE_SET (runs-on label)  min/max: $MIN/$MAX"
 
@@ -90,13 +106,21 @@ helm install arc --namespace "$NS_CTL" --create-namespace "$CTRL_CHART" >/dev/nu
   || { echo "ERROR: controller helm install failed" >&2; exit 1; }
 kubectl -n "$NS_CTL" rollout status deploy -l app.kubernetes.io/name=gha-rs-controller --timeout=120s >/dev/null 2>&1 || true
 
-# 3. Create the auth secret (token only inside the cluster).
-echo ">>> Creating namespace '$NS_RUN' and auth secret '$SECRET_NAME'..."
+# 3. Create the auth secret (credentials only inside the cluster).
+echo ">>> Creating namespace '$NS_RUN' and auth secret '$SECRET_NAME' (auth=$AUTH)..."
 kubectl create namespace "$NS_RUN" >/dev/null 2>&1 || true
 kubectl -n "$NS_RUN" delete secret "$SECRET_NAME" >/dev/null 2>&1 || true
-kubectl -n "$NS_RUN" create secret generic "$SECRET_NAME" \
-  --from-literal=github_token="$GH_AUTH" >/dev/null 2>&1 \
-  || { echo "ERROR: secret creation failed" >&2; exit 1; }
+if [ "$AUTH" = "app" ]; then
+  kubectl -n "$NS_RUN" create secret generic "$SECRET_NAME" \
+    --from-literal=github_app_id="$APP_ID" \
+    --from-literal=github_app_installation_id="$APP_INSTALL_ID" \
+    --from-file=github_app_private_key="$APP_KEY_FILE" >/dev/null 2>&1 \
+    || { echo "ERROR: app secret creation failed" >&2; exit 1; }
+else
+  kubectl -n "$NS_RUN" create secret generic "$SECRET_NAME" \
+    --from-literal=github_token="$GH_AUTH" >/dev/null 2>&1 \
+    || { echo "ERROR: secret creation failed" >&2; exit 1; }
+fi
 
 # 4. Deploy the runner scale set.
 echo ">>> Deploying runner scale set '$SCALE_SET'..."
