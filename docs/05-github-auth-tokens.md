@@ -1,5 +1,8 @@
 # GitHub Authentication and Tokens
 
+> [!TIP]
+> **Operationalize this:** the [`github-app-runner-auth`](../.github/skills/github-app-runner-auth/SKILL.md) and [`gha-azure-oidc`](../.github/skills/gha-azure-oidc/SKILL.md) Agent Skills automate App / OIDC auth end-to-end. See [17 — Agent Skills](17-agent-skills.md).
+
 There are **three distinct authentication flows** involved in self-hosted runners, and confusing them is a common source of errors:
 
 1. **Runner Registration Auth** — How the runner registers with GitHub

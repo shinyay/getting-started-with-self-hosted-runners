@@ -13,7 +13,7 @@ Built for **developers and DevOps engineers** at all levels — whether you're d
 
 ## 📖 Overview
 
-This repository contains **14 in-depth guides** spanning **3 Azure compute platforms**, complete with Bicep IaC templates, automation scripts, container images, and ready-to-use sample workflows. You'll learn not just *how* to set up self-hosted runners, but *why* each design decision matters — from networking and authentication to OIDC federation and security compliance.
+This repository contains **16 in-depth guides** spanning **3 Azure compute platforms**, complete with Bicep IaC templates, automation scripts, container images, ready-to-use sample workflows, and **13 GitHub Copilot Agent Skills** that operate the fleet conversationally. You'll learn not just *how* to set up self-hosted runners, but *why* each design decision matters — from networking and authentication to OIDC federation and security compliance.
 
 ---
 
@@ -40,6 +40,7 @@ Choose the path that matches your goal:
 - 🛡️ **Security hardening guide** — network isolation, least-privilege, image scanning, and audit logging
 - 📈 **Monitoring & troubleshooting** — diagnostics, log collection, and common issue resolution
 - 🚀 **6 ready-to-use sample workflows** — CI/CD patterns purpose-built for self-hosted runners
+- 🤖 **13 Agent Skills** — operate the fleet conversationally (provision, triage, migrate, audit, health, cost, runner-usage map) — see [docs/17](docs/17-agent-skills.md)
 
 ---
 
@@ -59,9 +60,25 @@ Before you begin, make sure you have:
 
 ## 📚 Full Documentation
 
-The complete table of contents for all 14 guides is available at:
+The complete table of contents for all 16 guides is available at:
 
 👉 **[docs/README.md](docs/README.md)**
+
+---
+
+## 🤖 Agent Skills (operate the fleet)
+
+Beyond the tutorial, this repo ships **13 [GitHub Copilot Agent Skills](docs/17-agent-skills.md)** under [`.github/skills/`](.github/skills/) that let an agent (e.g. the GitHub Copilot CLI) **do and verify** runner-fleet operations. State a goal — *"provision a runner for my repo"*, *"audit the fleet's security"*, *"which repos use self-hosted runners?"* — and the matching skill runs and proves the result.
+
+| Category | Skills |
+|----------|--------|
+| 🛠️ **Lifecycle (ACI)** | `ghrunner-ops` · `ghrunner-triage` · `ghrunner-provision` |
+| 🔐 **Authentication** | `gha-azure-oidc` · `github-app-runner-auth` |
+| ☁️ **Platforms** | `arc-ops` (AKS+ARC) · `vm-runner-ops` (VM) |
+| 📦 **Image & Workflows** | `ghrunner-image-release` · `runner-workflow-onboard` |
+| 📊 **Analysis (read-only)** | `runner-hardening-audit` · `runner-fleet-health` · `runner-cost-optimizer` · `runner-usage-map` |
+
+👉 **[docs/17 — Agent Skills](docs/17-agent-skills.md)** for the full catalog, how to invoke them, the shared architecture, and the safety model · index: **[.github/skills/README.md](.github/skills/README.md)**
 
 ---
 
@@ -83,12 +100,14 @@ Use it as a worked example of how the patterns described in the tutorial play ou
 ## 🏗️ Repository Structure
 
 ```
-├── docs/           # 14 tutorial guides (beginner → advanced)
+├── docs/           # 16 tutorial guides (beginner → advanced) + Agent Skills guide
 ├── bicep/          # Infrastructure as Code templates (Azure resources)
 ├── scripts/        # Automation scripts (cloud-init, provisioning)
 ├── containers/     # Runner container image (Dockerfile + config)
 ├── k8s/            # Kubernetes manifests (Actions Runner Controller)
-└── .github/        # Sample GitHub Actions workflows
+└── .github/
+    ├── skills/     # 13 Agent Skills (operate the fleet) — see docs/17
+    └── workflows/  # Sample GitHub Actions workflows
 ```
 
 ---

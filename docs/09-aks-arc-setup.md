@@ -1,5 +1,8 @@
 # AKS + Actions Runner Controller (ARC)
 
+> [!TIP]
+> **Operationalize this:** the [`arc-ops`](../.github/skills/arc-ops/SKILL.md) Agent Skill provisions AKS, installs ARC, deploys a runner scale set, and verifies a job runs green — with [`github-app-runner-auth`](../.github/skills/github-app-runner-auth/SKILL.md) for App auth. See [17 — Agent Skills](17-agent-skills.md).
+
 AKS combined with **Actions Runner Controller (ARC)** is the enterprise-grade solution for auto-scaling self-hosted runners on Kubernetes. ARC is GitHub's official Kubernetes operator that automatically provisions and manages runner pods in response to workflow job demand — including scaling from zero.
 
 > [!NOTE]

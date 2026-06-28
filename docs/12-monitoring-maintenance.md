@@ -1,5 +1,8 @@
 # Monitoring and Maintenance
 
+> [!TIP]
+> **Operationalize this:** the [`runner-fleet-health`](../.github/skills/runner-fleet-health/SKILL.md) Agent Skill turns this guide into an on-demand HEALTHY/DEGRADED/UNHEALTHY snapshot, plus opt-in Azure Monitor (with cost-zeroing teardown). See [17 — Agent Skills](17-agent-skills.md).
+
 Keeping runners healthy, updated, and monitored is critical for reliable CI/CD. This guide covers monitoring, logging, updates, troubleshooting, and decommissioning.
 
 ## 1. Monitoring Runner Health

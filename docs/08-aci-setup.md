@@ -1,5 +1,8 @@
 # ACI Setup — Container-Based Runners
 
+> [!TIP]
+> **Operationalize this:** the [`ghrunner-provision`](../.github/skills/ghrunner-provision/SKILL.md) and [`ghrunner-ops`](../.github/skills/ghrunner-ops/SKILL.md) Agent Skills bring up, verify, and manage ACI runners (and keep [runner-registry](runner-registry.md) in sync). See [17 — Agent Skills](17-agent-skills.md).
+
 > [!WARNING]
 > **ACI Limitations**: ACI runners are best for simple, short-lived, stateless jobs. They do **NOT** support Docker-in-Docker, service containers, or persistent caching. See [Decision Guide](02-decision-guide.md) for details.
 

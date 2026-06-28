@@ -1,5 +1,8 @@
 # Security Hardening
 
+> [!TIP]
+> **Operationalize this:** the [`runner-hardening-audit`](../.github/skills/runner-hardening-audit/SKILL.md) Agent Skill scans the fleet + a repo's Actions settings and produces a PASS/WARN/FAIL posture scorecard (read-only). See [17 — Agent Skills](17-agent-skills.md).
+
 Self-hosted runners execute arbitrary code from workflows. This guide covers essential security measures to protect your infrastructure.
 
 > [!CAUTION]

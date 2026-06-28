@@ -1,5 +1,8 @@
 # Advanced Enterprise Topics
 
+> [!TIP]
+> **Operationalize this:** the [`runner-cost-optimizer`](../.github/skills/runner-cost-optimizer/SKILL.md) Agent Skill turns the cost-optimization section into a per-runner cost report with right-sizing / scale-to-zero / ARC-migration recommendations (read-only). See [17 — Agent Skills](17-agent-skills.md).
+
 This guide covers enterprise-grade patterns for managing self-hosted runners at scale with GitHub Enterprise Cloud.
 
 ## Runner Groups

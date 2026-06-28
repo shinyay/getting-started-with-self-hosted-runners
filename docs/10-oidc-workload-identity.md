@@ -1,5 +1,8 @@
 # OIDC and Workload Identity Federation
 
+> [!TIP]
+> **Operationalize this:** the [`gha-azure-oidc`](../.github/skills/gha-azure-oidc/SKILL.md) Agent Skill sets up and verifies passwordless GitHub→Azure auth (federated credential + a real `azure/login` job). See [17 — Agent Skills](17-agent-skills.md).
+
 ## Introduction
 
 OIDC (OpenID Connect) workload identity federation allows GitHub Actions workflows to authenticate to Azure **without storing any secrets**. Instead of managing client secrets or certificates that must be rotated, workflows exchange a short-lived GitHub-issued token for an Azure access token — all through a trust relationship configured in Azure AD. This is the modern, recommended approach for GitHub Actions authentication to Azure.

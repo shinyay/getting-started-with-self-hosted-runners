@@ -74,6 +74,18 @@ graph TD
 | 14 | [Advanced Enterprise](14-advanced-enterprise.md) | 🔴 Advanced | Runner groups, cost optimization, multi-region, compliance |
 | 15 | [Copilot Coding Agent on Self-Hosted](15-copilot-coding-agent.md) | 🔴 Advanced | Field notes for running GitHub Copilot Coding Agent on self-hosted runners (the four requirements + troubleshooting) |
 | 16 | [Copilot Agent — Private Repo E2E](16-copilot-agent-arc-end-to-end.md) | 🔴 Advanced | End-to-end worked example: run Copilot Coding Agent on a **private** repo via AKS + ARC + GitHub App |
+| 17 | [Agent Skills](17-agent-skills.md) | 🟡 Intermediate | The **13 GitHub Copilot Agent Skills** that operate the fleet conversationally — provision, triage, migrate, audit, health, cost, usage-map |
+
+---
+
+## 🤖 Operate the fleet with Agent Skills
+
+Beyond the manual guides, this repo bundles **13 [GitHub Copilot Agent Skills](17-agent-skills.md)**
+under [`.github/skills/`](../.github/skills/) that let an agent **do and verify**
+fleet operations — from provisioning and triage to security audits, health,
+cost reports, and a cross-repo runner-usage census. See
+**[17 — Agent Skills](17-agent-skills.md)** for the full catalog and how to
+invoke them.
 
 ---
 
@@ -94,6 +106,13 @@ graph TD
 | Manage runner groups for my enterprise | [14 — Advanced Enterprise](14-advanced-enterprise.md) |
 | Run GitHub Copilot Coding Agent on a self-hosted runner | [15 — Copilot Coding Agent on Self-Hosted](15-copilot-coding-agent.md) |
 | Run Copilot Coding Agent on my **private** repo, end-to-end | [16 — Copilot Agent Private Repo E2E](16-copilot-agent-arc-end-to-end.md) |
+| Provision & verify a runner conversationally | [`ghrunner-provision`](../.github/skills/ghrunner-provision/SKILL.md) · [17](17-agent-skills.md) |
+| Diagnose why a runner job failed | [`ghrunner-triage`](../.github/skills/ghrunner-triage/SKILL.md) · [17](17-agent-skills.md) |
+| Migrate a repo's workflows to self-hosted | [`runner-workflow-onboard`](../.github/skills/runner-workflow-onboard/SKILL.md) · [17](17-agent-skills.md) |
+| Audit the fleet's security posture | [`runner-hardening-audit`](../.github/skills/runner-hardening-audit/SKILL.md) · [17](17-agent-skills.md) |
+| Check fleet health & capacity | [`runner-fleet-health`](../.github/skills/runner-fleet-health/SKILL.md) · [17](17-agent-skills.md) |
+| Analyze fleet cost & right-sizing | [`runner-cost-optimizer`](../.github/skills/runner-cost-optimizer/SKILL.md) · [17](17-agent-skills.md) |
+| Map which repos use which runners | [`runner-usage-map`](../.github/skills/runner-usage-map/SKILL.md) · [17](17-agent-skills.md) |
 
 ---
 
@@ -121,6 +140,7 @@ graph TD
 | `containers/` | Runner container image |
 | `k8s/` | Kubernetes manifests |
 | `.github/workflows/` | Sample workflows |
+| `.github/skills/` | [13 Agent Skills](../.github/skills/README.md) that operate the fleet (see [17](17-agent-skills.md)) |
 
 ---
 

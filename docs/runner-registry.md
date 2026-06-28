@@ -2,6 +2,9 @@
 
 This document tracks which ACI containers are running self-hosted runners and which repositories they serve.
 
+> [!TIP]
+> **Operationalize this:** the [`ghrunner-ops`](../.github/skills/ghrunner-ops/SKILL.md) Agent Skill reconciles this ledger against live Azure + GitHub (`inventory.sh`) and runs the add/redeploy/remove procedures. See [17 — Agent Skills](17-agent-skills.md).
+
 ## Current Runners
 
 > [!NOTE]

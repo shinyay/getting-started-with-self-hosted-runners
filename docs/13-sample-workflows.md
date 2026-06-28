@@ -1,5 +1,8 @@
 # Sample Workflows
 
+> [!TIP]
+> **Operationalize this:** the [`runner-workflow-onboard`](../.github/skills/runner-workflow-onboard/SKILL.md) Agent Skill migrates a repo's workflows from GitHub-hosted to self-hosted (rewrites `runs-on`, pins setup-action versions) and verifies they still pass. See [17 — Agent Skills](17-agent-skills.md).
+
 Ready-to-use GitHub Actions workflow examples for self-hosted runners. Each workflow demonstrates a different pattern.
 
 > [!TIP]

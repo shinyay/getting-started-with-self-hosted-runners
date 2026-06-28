@@ -1,5 +1,8 @@
 # VM Automation — cloud-init and Bicep
 
+> [!TIP]
+> **Operationalize this:** the [`vm-runner-ops`](../.github/skills/vm-runner-ops/SKILL.md) Agent Skill provisions, verifies, and decommissions a VM runner from this Bicep + cloud-init. See [17 — Agent Skills](17-agent-skills.md).
+
 In the [previous guide](06-vm-manual-setup.md) we set up a self-hosted runner on an Azure VM step-by-step. That works for learning, but manual provisioning doesn't scale. This guide automates the entire process two ways:
 
 1. **cloud-init** — a single YAML file that configures the VM on first boot.
