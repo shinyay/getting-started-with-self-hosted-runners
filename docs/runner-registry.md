@@ -14,7 +14,7 @@ This document tracks which ACI containers are running self-hosted runners and wh
 
 | Container | Repository | Labels (custom) | CPU | Memory | Status |
 |-----------|-----------|-----------------|:---:|:------:|:------:|
-| `ghrunner-aci-01` | [awesome-shinyay-knowledge-base-tech-articles](https://github.com/shinyay/awesome-shinyay-knowledge-base-tech-articles) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.0) |
+| `ghrunner-aci-01` | [awesome-shinyay-knowledge-base-tech-articles](https://github.com/shinyay/awesome-shinyay-knowledge-base-tech-articles) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.4) |
 | `ghrunner-aci-02` | [awesome-shinyay-knowledge-base](https://github.com/shinyay/awesome-shinyay-knowledge-base) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.0) |
 | `ghrunner-aci-03` | [gh-changelog](https://github.com/shinyay/gh-changelog) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.2-lsb-fix) |
 | `ghrunner-aci-04` | [gh-changelog-zenn](https://github.com/shinyay/gh-changelog-zenn) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, v0.6.1) |
@@ -38,7 +38,8 @@ This document tracks which ACI containers are running self-hosted runners and wh
 
 | Tag | Changes |
 |-----|---------|
-| `v0.6.3` (current `latest`) | Adds the **Azure CLI** (`az`) from the official `packages.microsoft.com` apt repo so `azure/login@v2` and any `az` workflow step work on the runner. Without it those steps failed with `Unable to locate executable file: az`. Verified live: `azure/login@v2` + `az account show` green on an OIDC-configured runner. |
+| `v0.6.4` (current `latest`) | Bumps `actions/runner` to **2.335.1** (from 2.333.1). GitHub began mandating 2.335.1, and the baked 2.333.1 could not persist its in-container auto-update across `EPHEMERAL=true` + `restart-policy=Always` restarts — the runner busy-looped on "Runner update in progress" and never completed queued jobs (observed: `ghrunner-aci-01` at 190 restarts, CI starved). Re-baking at 2.335.1 removes the forced update. |
+| `v0.6.3` | Adds the **Azure CLI** (`az`) from the official `packages.microsoft.com` apt repo so `azure/login@v2` and any `az` workflow step work on the runner. Without it those steps failed with `Unable to locate executable file: az`. Verified live: `azure/login@v2` + `az account show` green on an OIDC-configured runner. |
 | `v0.6.2-lsb-fix` | Adds `lsb-release` and `gnupg` so `actions/setup-python@v5` can install its Python toolchain on the sudoless runner container (the action's installer probes `lsb_release -a` and the deadsnakes PPA via `gpg`). Without these packages, Python setup failed with `lsb_release: command not found` and `gpg: command not found`. Commit `d833bd0`. |
 | `v0.6.1` | Bakes in Chromium runtime libraries (`libnss3`, `libgbm1`, `libasound2`, `fonts-noto-cjk`, etc.) so workflows that use Playwright/Puppeteer can run `playwright install chromium` (browser binary only) without `--with-deps` — the sudoless runner container cannot satisfy `apt-get install`. Triggered by `gh-changelog-zenn/daily-update.yml`. |
 | `v0.6.0` | Entrypoint now self-mints a fresh registration token on every container start using a long-lived `GH_PAT` (fine-grained PAT with `Administration: read & write`). Eliminates the 1-hour registration-token TTL bomb that crashed `EPHEMERAL=true` + `restart-policy=Always` runners after ~1 hour. Backwards-compatible with `RUNNER_TOKEN` for legacy v0.5.x containers. Also fixes graceful deregister (now mints a real `remove-token`). |

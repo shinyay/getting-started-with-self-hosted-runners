@@ -3,7 +3,7 @@
 # -------------------------------------------------------
 FROM ubuntu:22.04
 
-ARG RUNNER_VERSION=2.333.1
+ARG RUNNER_VERSION=2.335.1
 ARG RUNNER_ARCH=x64
 
 ENV DEBIAN_FRONTEND=noninteractive
