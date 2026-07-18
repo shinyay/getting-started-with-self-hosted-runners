@@ -26,6 +26,7 @@ This document tracks which ACI containers are running self-hosted runners and wh
 | `ghrunner-aci-10` | [polyclaw-jp](https://github.com/shinyay/polyclaw-jp) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.4) |
 | `ghrunner-aci-11` | [tokopt](https://github.com/shinyay/tokopt) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (GH_PAT, v0.6.4) |
 | `ghrunner-aci-12` | [knowlege-base-template](https://github.com/shinyay/knowlege-base-template) (private) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.4) |
+| `ghrunner-aci-13` | [knowlege-base-spring-boot](https://github.com/shinyay/knowlege-base-spring-boot) (private) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.4) |
 
 ## Azure Resources
 
@@ -95,7 +96,7 @@ az container create \
 ```
 
 > [!IMPORTANT]
-> Replace `YOUR-REPO` with the repository name and `NN` with the next available number (e.g., `13`, since `ghrunner-aci-12` is now serving `knowlege-base-template`).
+> Replace `YOUR-REPO` with the repository name and `NN` with the next available number (e.g., `14`, since `ghrunner-aci-13` is now serving `knowlege-base-spring-boot`).
 
 > [!TIP]
 > **Ephemeral mode (recommended for GitHub Copilot coding agent and any workload sensitive to dirty `_work` state):**
