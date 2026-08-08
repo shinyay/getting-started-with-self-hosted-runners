@@ -11,22 +11,25 @@ This document tracks which ACI containers are running self-hosted runners and wh
 > The **Labels** column shows the *custom* labels set via the `RUNNER_LABELS` env var. GitHub additionally auto-attaches `self-hosted`, `Linux`, and `X64`, so workflows should target `runs-on: [self-hosted, linux, azure, aci]`.
 >
 > The **Status** column annotates `(ephemeral)` when the runner is configured with `EPHEMERAL=true` and `--restart-policy Always`. Ephemeral runners exit after a single job (clean `_work` between jobs) and ACI restarts the container so the next runner registers automatically. This pattern is recommended for **GitHub Copilot coding agent** workloads, which fail on persistent runners due to leftover git state in `_work`. See [docs/15-copilot-coding-agent.md](15-copilot-coding-agent.md) for the full requirements and troubleshooting guide.
+>
+> `ghrunner-aci-14` is the only runner still authenticated with a one-shot `RUNNER_TOKEN` instead of `GH_PAT`. That is safe *because* it is persistent: the token is consumed once at first registration, after which the runner holds its own long-lived credentials, so the 1-hour TTL never applies. The trade-off is `restart-policy=Never` — if the container dies it does not come back and jobs queue silently. Re-provision it with `GH_PAT` + `EPHEMERAL=true` to bring it in line with the rest of the fleet.
 
 | Container | Repository | Labels (custom) | CPU | Memory | Status |
 |-----------|-----------|-----------------|:---:|:------:|:------:|
-| `ghrunner-aci-01` | [awesome-shinyay-knowledge-base-tech-articles](https://github.com/shinyay/awesome-shinyay-knowledge-base-tech-articles) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.4) |
-| `ghrunner-aci-02` | [awesome-shinyay-knowledge-base](https://github.com/shinyay/awesome-shinyay-knowledge-base) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.4) |
-| `ghrunner-aci-03` | [gh-changelog](https://github.com/shinyay/gh-changelog) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.4) |
-| `ghrunner-aci-04` | [gh-changelog-zenn](https://github.com/shinyay/gh-changelog-zenn) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.4) |
-| `ghrunner-aci-05` | [continuous-cloud-agent](https://github.com/shinyay/continuous-cloud-agent) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.4) |
-| `ghrunner-aci-06` | [dexter-for-japan](https://github.com/shinyay/dexter-for-japan) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.4) |
-| `ghrunner-aci-07` | [ghcp-6-layer-agentic-platform](https://github.com/shinyay/ghcp-6-layer-agentic-platform) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.4) |
-| `ghrunner-aci-08` | [getting-started-with-token-optimization](https://github.com/shinyay/getting-started-with-token-optimization) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (GH_PAT, restart=Always, v0.6.4) |
-| `ghrunner-aci-09` | [gh-internal-notes](https://github.com/shinyay/gh-internal-notes) (private) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (GH_PAT, v0.6.4) |
-| `ghrunner-aci-10` | [polyclaw-jp](https://github.com/shinyay/polyclaw-jp) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.4) |
-| `ghrunner-aci-11` | [tokopt](https://github.com/shinyay/tokopt) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (GH_PAT, v0.6.4) |
-| `ghrunner-aci-12` | [knowlege-base-template](https://github.com/shinyay/knowlege-base-template) (private) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.4) |
-| `ghrunner-aci-13` | [knowlege-base-spring-boot](https://github.com/shinyay/knowlege-base-spring-boot) (private) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.4) |
+| `ghrunner-aci-01` | [awesome-shinyay-knowledge-base-tech-articles](https://github.com/shinyay/awesome-shinyay-knowledge-base-tech-articles) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.5) |
+| `ghrunner-aci-02` | [awesome-shinyay-knowledge-base](https://github.com/shinyay/awesome-shinyay-knowledge-base) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.5) |
+| `ghrunner-aci-03` | [gh-changelog](https://github.com/shinyay/gh-changelog) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.5) |
+| `ghrunner-aci-04` | [gh-changelog-zenn](https://github.com/shinyay/gh-changelog-zenn) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.5) |
+| `ghrunner-aci-05` | [continuous-cloud-agent](https://github.com/shinyay/continuous-cloud-agent) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.5) |
+| `ghrunner-aci-06` | [dexter-for-japan](https://github.com/shinyay/dexter-for-japan) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.5) |
+| `ghrunner-aci-07` | [ghcp-6-layer-agentic-platform](https://github.com/shinyay/ghcp-6-layer-agentic-platform) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.5) |
+| `ghrunner-aci-08` | [getting-started-with-token-optimization](https://github.com/shinyay/getting-started-with-token-optimization) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (GH_PAT, restart=Always, v0.6.5) |
+| `ghrunner-aci-09` | [gh-internal-notes](https://github.com/shinyay/gh-internal-notes) (private) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (GH_PAT, v0.6.5) |
+| `ghrunner-aci-10` | [polyclaw-jp](https://github.com/shinyay/polyclaw-jp) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.5) |
+| `ghrunner-aci-11` | [tokopt](https://github.com/shinyay/tokopt) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (GH_PAT, v0.6.5) |
+| `ghrunner-aci-12` | [knowlege-base-template](https://github.com/shinyay/knowlege-base-template) (private) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.5) |
+| `ghrunner-aci-13` | [knowlege-base-spring-boot](https://github.com/shinyay/knowlege-base-spring-boot) (private) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.5) |
+| `ghrunner-aci-14` | [getting-started-with-copilot-app](https://github.com/shinyay/getting-started-with-copilot-app) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (RUNNER_TOKEN, restart=Never, v0.6.5) |
 
 ## Azure Resources
 
@@ -40,7 +43,8 @@ This document tracks which ACI containers are running self-hosted runners and wh
 
 | Tag | Changes |
 |-----|---------|
-| `v0.6.4` (current `latest`) | Bumps `actions/runner` to **2.335.1** (from 2.333.1). GitHub began mandating 2.335.1, and the baked 2.333.1 could not persist its in-container auto-update across `EPHEMERAL=true` + `restart-policy=Always` restarts — the runner busy-looped on "Runner update in progress" and never completed queued jobs (observed: `ghrunner-aci-01` at 190 restarts, CI starved). Re-baking at 2.335.1 removes the forced update. |
+| `v0.6.5` (current `latest`) | Straight rebuild of the `v0.6.4` Dockerfile — no recipe change, just a refreshed base image and apt packages. Digest `sha256:2d0ccfd…`, built 2026-08-06; the whole fleet was recreated on it. |
+| `v0.6.4` | Bumps `actions/runner` to **2.335.1** (from 2.333.1). GitHub began mandating 2.335.1, and the baked 2.333.1 could not persist its in-container auto-update across `EPHEMERAL=true` + `restart-policy=Always` restarts — the runner busy-looped on "Runner update in progress" and never completed queued jobs (observed: `ghrunner-aci-01` at 190 restarts, CI starved). Re-baking at 2.335.1 removes the forced update. |
 | `v0.6.3` | Adds the **Azure CLI** (`az`) from the official `packages.microsoft.com` apt repo so `azure/login@v2` and any `az` workflow step work on the runner. Without it those steps failed with `Unable to locate executable file: az`. Verified live: `azure/login@v2` + `az account show` green on an OIDC-configured runner. |
 | `v0.6.2-lsb-fix` | Adds `lsb-release` and `gnupg` so `actions/setup-python@v5` can install its Python toolchain on the sudoless runner container (the action's installer probes `lsb_release -a` and the deadsnakes PPA via `gpg`). Without these packages, Python setup failed with `lsb_release: command not found` and `gpg: command not found`. Commit `d833bd0`. |
 | `v0.6.1` | Bakes in Chromium runtime libraries (`libnss3`, `libgbm1`, `libasound2`, `fonts-noto-cjk`, etc.) so workflows that use Playwright/Puppeteer can run `playwright install chromium` (browser binary only) without `--with-deps` — the sudoless runner container cannot satisfy `apt-get install`. Triggered by `gh-changelog-zenn/daily-update.yml`. |
@@ -96,7 +100,7 @@ az container create \
 ```
 
 > [!IMPORTANT]
-> Replace `YOUR-REPO` with the repository name and `NN` with the next available number (e.g., `14`, since `ghrunner-aci-13` is now serving `knowlege-base-spring-boot`).
+> Replace `YOUR-REPO` with the repository name and `NN` with the next available number (e.g., `15`, since `ghrunner-aci-14` is now serving `getting-started-with-copilot-app`).
 
 > [!TIP]
 > **Ephemeral mode (recommended for GitHub Copilot coding agent and any workload sensitive to dirty `_work` state):**
