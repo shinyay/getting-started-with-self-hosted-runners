@@ -35,7 +35,9 @@ the ledger in sync with reality.
 - `gh` CLI authenticated as the **fleet owner** (`shinyay`)
 - `az` CLI authenticated and able to reach **`ghrunner-rg`**
 - Tools: `az`, `gh`, `git`; `docker` for image work
-- For `GH_PAT` operations: `export GH_PAT='github_pat_…'` in the environment
+- For `GH_PAT` operations (A2/A3/A6): a token exported as `GH_PAT`, from the
+  source the operator chooses (registry §"GH_PAT — Setup and Rotation" →
+  "Token source")
 
 ## Critical Guardrails — read before any action
 
@@ -50,6 +52,11 @@ the ledger in sync with reality.
 - **Registration tokens expire in ~1 hour.** Mint them immediately before
   `az container create`. For long-lived ephemeral runners, prefer the `GH_PAT`
   self-minting image (v0.6.0+).
+- **Ask, don't assume, the `GH_PAT` source.** No stored PAT is guaranteed to
+  exist: ask whether to use (a) a fine-grained PAT or (b) the operator's
+  `gh auth token` (broader scopes — explicit approval required), and never ask
+  the operator to paste a token they don't have. Never read `GH_PAT` back out
+  of a running container (e.g. `az container exec … printenv`).
 - **ACI keeps the deploy-time image snapshot.** A container deployed with the
   mutable `:latest` tag does *not* auto-pull on restart. When reconciling, do
   **not** overwrite a recorded semantic version (e.g. `v0.6.1`) with the literal
@@ -121,7 +128,7 @@ Run the operation following its authoritative procedure:
 | `A2` | Add a runner for a repository | mutating | registry §"How to Add a New Runner" |
 | `A3` | Redeploy / recover a crashed runner | mutating | registry §"How to Redeploy a Crashed Runner" |
 | `A4` | Update the runner image (ACR push) | mutating | [references/operations.md](./references/operations.md) — release with the [`ghrunner-image-release`](../ghrunner-image-release/SKILL.md) skill |
-| `A5` | Remove / deregister a runner | mutating | registry §"How to Add" (delete block) |
+| `A5` | Remove / deregister a runner | mutating | registry §"How to Remove a Runner" |
 | `A6` | Rotate `GH_PAT` | mutating | registry §"GH_PAT — Setup and Rotation" |
 | `B1` | VM runner (Bicep) | mutating | `bicep/vm-runner/`, `docs/07-vm-automation.md` — operate with the [`vm-runner-ops`](../vm-runner-ops/SKILL.md) skill |
 | `B2` | AKS + ARC autoscaling | mutating | `k8s/arc/`, `docs/09-aks-arc-setup.md` — operate with the [`arc-ops`](../arc-ops/SKILL.md) skill |

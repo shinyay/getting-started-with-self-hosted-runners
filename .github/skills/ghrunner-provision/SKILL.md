@@ -44,7 +44,9 @@ clean **teardown**.
 - **Never stage/commit/modify the untracked `resume` file.**
 - **Throwaway naming**: test runners use a `*-smoke` name and a **non-`latest`**
   image tag; **never** add test runners to `docs/runner-registry.md`, and never
-  touch fleet containers `ghrunner-aci-01..11` or the `:latest` image.
+  touch the fleet containers listed in `docs/runner-registry.md` or the
+  `:latest` image. `teardown.sh` itself only refuses `ghrunner-aci-01..11` by
+  name, so check the registry before passing `--container`.
 - Registration tokens expire ~1h — mint immediately before deploy.
 - Writing the smoke workflow to a **real** repo: warn first, use the clear
   filename `runner-smoke.yml`, and remove it afterwards (the verify script does).

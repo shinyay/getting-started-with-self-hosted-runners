@@ -80,5 +80,8 @@ runner we provisioned.
       `gh api repos/<owner>/<repo>/actions/runners` no longer lists it
 
 > [!WARNING]
-> Never delete or modify production fleet containers (`ghrunner-aci-01..11`) or
-> the `:latest` image. Test resources use a `*-smoke` name and a throwaway tag.
+> Never delete or modify the production fleet containers listed in
+> `docs/runner-registry.md`, or the `:latest` image. Test resources use a
+> `*-smoke` name and a throwaway tag. `teardown.sh` itself only refuses
+> `ghrunner-aci-01..11` by name, so check the registry before passing
+> `--container`.

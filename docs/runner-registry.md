@@ -63,6 +63,23 @@ This document tracks which ACI containers are running self-hosted runners and wh
 
 ## How to Add a New Runner for a Repository
 
+> [!IMPORTANT]
+> **Fleet standard for new runners:** `GH_PAT` (self-minting) +
+> `EPHEMERAL=true` + `--restart-policy Always`. Steps 1 and 3 below show the
+> **legacy** one-shot `RUNNER_TOKEN` path (`--restart-policy Never`,
+> `EPHEMERAL=false`), kept for reference. For a new runner:
+>
+> 1. Ask the operator which token to use as `GH_PAT` — see
+>    [Token source](#token-source). Do not assume a stored PAT exists.
+> 2. Skip Step 1: the entrypoint mints a fresh registration token on every
+>    container start.
+> 3. In Step 3, set `--restart-policy Always` and `EPHEMERAL=true`, and pass
+>    `GH_PAT="$GH_PAT"` instead of `RUNNER_TOKEN="$RUNNER_TOKEN"` under
+>    `--secure-environment-variables`.
+>
+> **Size:** the fleet default is 2 vCPU / 4 GB (`--cpu 2 --memory 4`); 1 vCPU /
+> 2 GB (`--cpu 1 --memory 2`) is enough for light CI.
+
 ### Step 1: Get a registration token
 
 ```bash
@@ -113,7 +130,7 @@ az container create \
 >     EPHEMERAL=true \
 > ```
 >
-> ⚠️ Caveat: the `RUNNER_TOKEN` baked into the container env is the original *registration* token, which expires in ~1 hour. After expiry, restarted containers will fail to re-register. For long-lived ephemeral runners, recreate the container periodically (or migrate to ARC on AKS, where pods are re-spawned by the controller with fresh tokens).
+> ⚠️ Caveat: the `RUNNER_TOKEN` baked into the container env is the original *registration* token, which expires in ~1 hour. After expiry, restarted containers will fail to re-register. For long-lived ephemeral runners, use `GH_PAT` instead (the fleet standard at the top of this section), or migrate to ARC on AKS, where pods are re-spawned by the controller with fresh tokens.
 
 ### Step 4: Verify
 
@@ -146,6 +163,12 @@ runs-on: [self-hosted, linux, azure, aci]
 >     node-version: '20'
 > ```
 
+Also apply the
+[manual fixes](../.github/skills/runner-workflow-onboard/references/migration-rules.md#manual-fixes-not-auto-applied)
+that the onboarding transform does not make — e.g. `actions/setup-python` jobs
+need `env: AGENT_TOOLSDIRECTORY: /opt/hostedtoolcache`, and `docker build` /
+`docker run` steps can't run on ACI.
+
 ### Step 6: Update this document
 
 Add the new runner to the **Current Runners** table above.
@@ -154,12 +177,33 @@ Add the new runner to the **Current Runners** table above.
 
 ## GH_PAT (v0.6.0+) — Setup and Rotation
 
-The v0.6.0+ runner image self-mints a registration token from a long-lived
-**fine-grained Personal Access Token** (`GH_PAT`) on every container start.
-This eliminates the 1-hour registration-token expiry that crashed
-`EPHEMERAL=true` + `restart-policy=Always` runners.
+The v0.6.0+ runner image self-mints a registration token on every container
+start from a long-lived GitHub token passed in `GH_PAT` (see
+[Token source](#token-source)). This eliminates the 1-hour registration-token
+expiry that crashed `EPHEMERAL=true` + `restart-policy=Always` runners.
 
-### One-time PAT creation
+### Token source
+
+`GH_PAT` only needs to be able to call
+`POST /repos/{owner}/{repo}/actions/runners/registration-token` for the
+runner's repository. Two sources work:
+
+| Option | How to get it | Privilege |
+|--------|---------------|-----------|
+| **(a)** Fine-grained PAT | [One-time PAT creation](#one-time-pat-creation-option-a) below | Least privilege: only `Administration: Read and write` on the repositories you grant |
+| **(b)** The operator's GitHub CLI token | `gh auth token` | Broader: the scopes of the operator's `gh` login (e.g. `repo`, which covers every repository the operator can access) |
+
+With either option, **any job that runs on the runner can read the token**, so
+(b) puts a much broader credential within reach of every workflow on that
+runner. Use (b) only with the operator's explicit approval.
+
+> [!IMPORTANT]
+> **For agents:** do not assume a stored PAT exists, and do not ask the
+> operator to paste a token they do not have. Ask which source to use — (a) or
+> (b) — before provisioning. Never read `GH_PAT` back out of a running
+> container (e.g. `az container exec ... printenv`).
+
+### One-time PAT creation (option a)
 
 1. https://github.com/settings/personal-access-tokens → **Generate new token**.
 2. **Token name**: `ghrunner-self-mint`.
@@ -167,38 +211,42 @@ This eliminates the 1-hour registration-token expiry that crashed
 4. **Expiration**: 1 year (max).
 5. **Repository access**: *All repositories* (covers any current or future
    runner-served repo without re-issuing the PAT each time a new runner is
-   added). If you prefer a tighter blast radius, use *Only select repositories*
-   and add each runner-served repo individually (knowledge-base-tech-articles,
-   awesome-shinyay-knowledge-base, gh-changelog, gh-changelog-zenn,
-   continuous-cloud-agent, dexter-for-japan,
-   ghcp-6-layer-agentic-platform-phase3-dry-run,
-   ghcp-6-layer-agentic-platform, polyclaw-jp).
+   added). If you prefer a tighter blast radius, use *Only select repositories*,
+   add every repository in **Current Runners**, and add each new runner's
+   repository to the PAT *before* deploying that runner (otherwise the
+   entrypoint cannot mint a registration token and the container exits).
 6. **Repository permissions** → **Administration**: `Read and write`. Leave
    everything else at default (no access). This is the only permission needed
    for `POST /repos/:o/:r/actions/runners/registration-token`.
 7. Generate, then copy the token. Store in your password manager.
 
-### Local export (for the recreate script)
+### Local export
 
 ```bash
+# (a) fine-grained PAT
 export GH_PAT='github_pat_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+# (b) the operator's GitHub CLI token — only with the operator's explicit approval
+export GH_PAT="$(gh auth token)"
 ```
 
 ### Rotate (annually, before expiry)
 
-1. Generate a new PAT with the same scope (steps above).
+1. Get a new token from the chosen source (see [Token source](#token-source)).
 2. `export GH_PAT='<new>'`
-3. Re-run `recreate-runners.sh fragile` (or recreate runners individually).
-   ACI re-creates each container with the new PAT in its secure env vars; the
-   entrypoint will use it on every subsequent restart automatically.
-4. Revoke the old PAT in GitHub UI.
+3. Recreate each `GH_PAT`-backed runner (see **How to Redeploy a Crashed
+   Runner**) so the new token is baked into its secure env vars; the
+   entrypoint uses it on every subsequent restart automatically.
+4. Revoke the old token once no runner uses it.
 
 > [!IMPORTANT]
-> The PAT lives **inside the running container** as a secure env var (encrypted
-> at rest in ACI; not visible in `az container show` output). It never touches
+> `GH_PAT` lives **inside the running container** as a secure env var:
+> encrypted at rest in ACI and not visible in `az container show` output, but
+> readable by every job that runs on the runner. It never touches
 > `config.sh --token`, only the GitHub REST API.
 
+---
 
+## How to Remove a Runner
 
 ```bash
 # 1. Delete the ACI container
@@ -214,7 +262,12 @@ gh api repos/shinyay/YOUR-REPO/actions/runners/$RUNNER_ID -X DELETE
 
 ## How to Redeploy a Crashed Runner
 
-Since runners use `restart-policy: Never`, a crashed container won't restart. To redeploy:
+A container with `--restart-policy Never` (the legacy `RUNNER_TOKEN` setup)
+won't restart after a crash; ACI restarts `Always` containers by itself. To
+recreate a runner, keep the settings recorded in **Current Runners**
+(ephemeral, restart policy, CPU/memory). For a `GH_PAT` runner, skip step 2 and
+pass `GH_PAT` (see [Token source](#token-source)) as in the fleet standard at
+the top of **How to Add a New Runner**. To redeploy:
 
 ```bash
 # 1. Delete the old container

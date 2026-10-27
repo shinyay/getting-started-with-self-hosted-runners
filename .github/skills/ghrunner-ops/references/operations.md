@@ -76,17 +76,26 @@ Reflect any findings into the ledger (Step 6 of the main flow).
 
 ## A2 — Add a Runner
 
-**Inputs:** target `OWNER/REPO`, next free `NN`, `EPHEMERAL` (true/false),
-labels (default `azure,linux,x64,aci`).
+**Inputs:** target `OWNER/REPO`, next free `NN`, the `GH_PAT` token source
+(ask the operator — see below), size (default 2 vCPU / 4 GB), labels (default
+`azure,linux,x64,aci`).
 
 Follow `docs/runner-registry.md` → **"How to Add a New Runner for a
-Repository"** (mint registration token → get ACR creds → `az container create`
-→ verify → switch the target repo's workflows to
+Repository"** (fleet-standard note → get ACR creds → `az container create` →
+verify → switch the target repo's workflows to
 `runs-on: [self-hosted, linux, azure, aci]` → update the ledger).
 
-- Default `--restart-policy Never`, `EPHEMERAL=false`.
-- For Copilot coding agent or dirty-`_work`-sensitive workloads: `EPHEMERAL=true`
-  + `--restart-policy Always` (see `docs/15-copilot-coding-agent.md`).
+- Default (fleet standard): `GH_PAT` (self-minting) + `EPHEMERAL=true` +
+  `--restart-policy Always`, `--cpu 2 --memory 4` (`--cpu 1 --memory 2` is
+  enough for light CI). Ephemeral also covers the Copilot coding agent and
+  other dirty-`_work`-sensitive workloads (`docs/15-copilot-coding-agent.md`).
+- Token: registry §"GH_PAT — Setup and Rotation" → **"Token source"**. Ask
+  whether to use (a) a fine-grained PAT or (b) the operator's `gh auth token`
+  (explicit approval required). Never assume a stored PAT exists or ask for a
+  token the operator doesn't have.
+- Legacy: the registry's one-shot `RUNNER_TOKEN` example
+  (`--restart-policy Never`, `EPHEMERAL=false`) — only if the operator asks
+  for it.
 
 ## A3 — Redeploy / Recover
 
@@ -95,6 +104,10 @@ Repository"** (mint registration token → get ACR creds → `az container creat
 Follow `docs/runner-registry.md` → **"How to Redeploy a Crashed Runner"**
 (delete container → mint fresh token → recreate). Tokens expire in 1h — mint
 immediately before recreating.
+
+- For a `GH_PAT` runner, skip the token mint: recreate it with `GH_PAT` from
+  the source the operator chooses (registry → **"Token source"**) and the
+  settings recorded in the ledger (ephemeral, restart policy, size).
 
 ## A4 — Update Runner Image
 
@@ -114,17 +127,20 @@ immediately before recreating.
 
 **Inputs:** `NN`, target `OWNER/REPO`.
 
-Follow the delete block in `docs/runner-registry.md` (delete the ACI container,
-then remove the stale runner from GitHub via the runners API). Remove the row
-from the ledger.
+Follow `docs/runner-registry.md` → **"How to Remove a Runner"** (delete the ACI
+container, then remove the stale runner from GitHub via the runners API).
+Remove the row from the ledger.
 
 ## A6 — Rotate GH_PAT
 
-**Inputs:** new `GH_PAT` (fine-grained, `Administration: read & write`).
+**Inputs:** a new token from the source the operator chooses (registry →
+**"Token source"**): a fine-grained PAT (`Administration: Read and write`) or
+the operator's GitHub CLI token (`gh auth token`, explicit approval required).
 
-Follow `docs/runner-registry.md` → **"GH_PAT — Setup and Rotation"**: generate
-new PAT → `export GH_PAT=…` → recreate the GH_PAT-backed runners so the new
-secret is baked into their secure env → revoke the old PAT.
+Follow `docs/runner-registry.md` → **"GH_PAT — Setup and Rotation"**: get the
+new token → `export GH_PAT=…` → recreate the GH_PAT-backed runners so the new
+secret is baked into their secure env → revoke the old token once no runner
+uses it.
 
 ---
 
