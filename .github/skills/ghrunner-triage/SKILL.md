@@ -106,7 +106,7 @@ it — direct the user to the `ghrunner-ops` operation or doc below.
 | IMAGE | Bump runner image, then **recreate** the container (`:latest` snapshot rule) | `ghrunner-ops` `A4` + `A3` |
 | AUTH (token TTL) | Redeploy with fresh token, or GH_PAT self-minting image | `ghrunner-ops` `A3` / `A6` |
 | AUTH (private repo) | Move to ARC (GitHub App auth) | `docs/16-copilot-agent-arc-end-to-end.md` |
-| WORKFLOW | Make runner ephemeral / disable agent firewall / pin versions | `ghrunner-ops` `A3`; `docs/15` |
+| WORKFLOW | Make runner ephemeral / disable agent firewall / pin versions / job env `AGENT_TOOLSDIRECTORY` (setup-python) | `ghrunner-ops` `A3`; `docs/15`; `runner-workflow-onboard` manual fixes |
 | CONFIG | Align `runs-on` labels / runner group access | edit workflow / `docs/12` |
 | INFRA | Start VM/AKS, free disk, fix DNS, resize | `ghrunner-ops` `A3`; `docs/12`, `docs/09` |
 

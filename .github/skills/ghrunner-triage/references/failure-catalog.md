@@ -31,7 +31,7 @@ Source: `docs/runner-registry.md` → Image versions.
 | `IMG-GH` | `gh: command not found` | Image lacks GitHub CLI | Use image ≥ `v0.5.0`; `A4` + `A3` |
 | `IMG-LIBYAML` | `libyaml` load error during `ruby/setup-ruby@v1` | Prebuilt Ruby needs `libyaml-0-2` | Use image ≥ `v0.4.0`; `A4` + `A3` |
 | `IMG-NODE24` | `node24` errors during `actions/checkout@v5` / other v5 actions | Runner binary < 2.327 (no node24) | Use image ≥ `v0.3.0` (runner `2.333.1`); `A4` + `A3` |
-| `IMG-TOOLCACHE` | permission errors writing `/opt/hostedtoolcache` (`ruby/setup-ruby@v1`) | Tool cache dir not owned by `runner`; action hard-codes the path | Use image ≥ `v0.2.0`; `A4` + `A3` |
+| `IMG-TOOLCACHE` | `Permission denied` / `EACCES` writing under `/opt/hostedtoolcache` (`ruby/setup-ruby@v1`). A bare mention of the path is **not** this failure: jobs that set `AGENT_TOOLSDIRECTORY: /opt/hostedtoolcache` print it in every step header | Tool cache dir not owned by `runner`; action hard-codes the path | Use image ≥ `v0.2.0`; `A4` + `A3` |
 
 ## AUTH — token / credential / access
 
@@ -48,6 +48,7 @@ Source: `docs/runner-registry.md` → Image versions.
 | `WF-UNRELATED-HISTORIES` | `fatal: refusing to merge unrelated histories` (Copilot agent) | Non-ephemeral runner with dirty `_work/` from a prior run | Make the runner ephemeral: `EPHEMERAL=true` + `--restart-policy Always` (`A3`/`A2`); `docs/15` #3 |
 | `WF-FIREWALL` | network errors **before the first step** (Copilot agent) | Repository agent firewall still ON (unsupported on self-hosted) | Disable the agent firewall; `docs/15` #2 (gh.io/cca-self-hosted-disable-firewall) |
 | `WF-SETUP-NODE-NOVER` | `actions/setup-node` fails to resolve a version | `node-version` not specified | Add `node-version: '20'` to the step; `docs/runner-registry.md` note |
+| `WF-SETUP-PYTHON-RUNPATH` | `python3: error while loading shared libraries: libpython3.12.so.1.0: cannot open shared object file` (any 3.x), typically in tests that start Python with a reduced environment | `actions/setup-python` installed into the runner's default tool cache (`_work/_tool`), but the actions/python-versions build has RUNPATH `/opt/hostedtoolcache/Python/<ver>/x64/lib`; setup-python only exports `LD_LIBRARY_PATH` to later steps | Set job-level `env: AGENT_TOOLSDIRECTORY: /opt/hostedtoolcache` (setup-python maps it to `RUNNER_TOOL_CACHE`; image ≥ `v0.2.0` pre-creates the dir owned by `runner`); `runner-workflow-onboard` → Manual fixes |
 
 ## CONFIG — runner labels / groups (job never starts)
 

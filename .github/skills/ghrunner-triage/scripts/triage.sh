@@ -91,7 +91,7 @@ sig IMG-CHROMIUM   'libnss3|libgbm1|libasound2'                            'Chro
 sig IMG-GH         'gh: command not found'                                 'GitHub CLI missing -> image >= v0.5.0 (A4+A3)'
 sig IMG-LIBYAML    'libyaml'                                               'libyaml missing for setup-ruby -> image >= v0.4.0 (A4+A3)'
 sig IMG-NODE24     'node24'                                                'runner < 2.327 (no node24) -> image >= v0.3.0 (A4+A3)'
-sig IMG-TOOLCACHE  '/opt/hostedtoolcache'                                  'hostedtoolcache perms -> image >= v0.2.0 (A4+A3)'
+sig IMG-TOOLCACHE  '(Permission denied|EACCES).*/opt/hostedtoolcache|/opt/hostedtoolcache.*(Permission denied|EACCES)' 'hostedtoolcache perms -> image >= v0.2.0 (A4+A3)'
 # AUTH
 sig AUTH-TOKEN-TTL    '[Ii]nvalid.*registration token|registration token.*(expired|invalid)' 'registration token expired -> redeploy (A3) or GH_PAT image (A6)'
 sig AUTH-PRIVATE-REPO 'Repository not found'                              'private-repo GITHUB_TOKEN scope -> move to ARC (docs/16)'
@@ -100,6 +100,7 @@ sig AUTH-ARC-CREDS    'CrashLoopBackOff'                                  'ARC p
 sig WF-UNRELATED-HISTORIES 'refusing to merge unrelated histories'        'non-ephemeral dirty _work -> EPHEMERAL=true (A3/A2; docs/15 #3)'
 sig WF-FIREWALL           'agent firewall|blocked by the firewall'        'agent firewall ON -> disable it (docs/15 #2)'
 sig WF-SETUP-NODE-NOVER   'Version input is not set|node-version'         'setup-node lacks node-version -> pin node-version'
+sig WF-SETUP-PYTHON-RUNPATH 'libpython3\.[0-9]+\.so\.1\.0: cannot open shared object file' 'setup-python RUNPATH miss -> job env AGENT_TOOLSDIRECTORY: /opt/hostedtoolcache'
 # INFRA
 sig INF-DISK         'No space left on device'                            'disk full -> clean _work/ (docs/12); prefer ephemeral'
 sig INF-DNS          'Could not resolve host|Temporary failure in name resolution|getaddrinfo' 'DNS/egress -> check resolv.conf/NSG (docs/12,04)'
