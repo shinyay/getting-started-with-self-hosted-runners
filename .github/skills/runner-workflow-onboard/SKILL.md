@@ -86,6 +86,10 @@ Plus: `actions/setup-node` → `node-version: '20'`, `actions/setup-python` →
 `python-version: '3.12'` when missing. Full rules:
 [references/migration-rules.md](./references/migration-rules.md).
 
+**Not auto-applied** — check each migrated workflow by hand for the
+[manual fixes](./references/migration-rules.md#manual-fixes-not-auto-applied)
+(setup-python tool cache, `docker` steps, actionlint labels, Playwright, venv).
+
 ## Options
 
 | Option | Meaning |

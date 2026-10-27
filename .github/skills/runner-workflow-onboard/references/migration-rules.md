@@ -31,6 +31,53 @@ These address known failures on the sudoless fleet (see registry Step 5 and
 
 Versions are configurable: `--node-version`, `--python-version`.
 
+## Manual fixes (not auto-applied)
+
+The transform does not detect or apply these. Check every migrated workflow for
+them before the verify run — each one broke a real migration to the ACI fleet.
+
+1. **`actions/setup-python` jobs need `AGENT_TOOLSDIRECTORY`.** Set it at job
+   level:
+
+   ```yaml
+   jobs:
+     test:
+       runs-on: [self-hosted, linux, azure, aci]
+       env:
+         AGENT_TOOLSDIRECTORY: /opt/hostedtoolcache
+   ```
+
+   Without it, setup-python installs into the runner's default tool cache
+   (`_work/_tool`), but the actions/python-versions builds have RUNPATH
+   `/opt/hostedtoolcache/Python/<ver>/x64/lib`, and setup-python only exports
+   `LD_LIBRARY_PATH` to later steps. Anything that starts Python with a reduced
+   environment (e.g. a test that spawns `python3` with a clean `env`) then
+   fails with:
+   `python3: error while loading shared libraries: libpython3.12.so.1.0: cannot open shared object file`.
+   setup-python maps `AGENT_TOOLSDIRECTORY` to `RUNNER_TOOL_CACHE` (its
+   `docs/advanced-usage.md` documents this for self-hosted Ubuntu), and the
+   image (≥ v0.2.0) pre-creates `/opt/hostedtoolcache` owned by `runner`.
+   Triage ID: `WF-SETUP-PYTHON-RUNPATH`.
+2. **No `docker build` / `docker run` on ACI.** The runner container has no
+   Docker daemon. Install the pinned tools the step needs directly in the job
+   instead (e.g. download the release binary of the pinned version).
+3. **actionlint needs the custom labels.** If the repo lints workflows with
+   actionlint, register the fleet's custom labels in `.github/actionlint.yaml`,
+   or it reports `label "azure" is unknown`:
+
+   ```yaml
+   self-hosted-runner:
+     labels: [azure, aci]
+   ```
+
+4. **Playwright:** run `playwright install chromium` **without** `--with-deps`
+   (no sudo on the runner; the image already ships Chromium's runtime
+   libraries), with the pinned Node from `actions/setup-node` on `PATH`.
+5. **`python3 -m venv` needs setup-python first.** The image has no
+   `python3-venv`, so the system `python3` fails with
+   `ensurepip is not available`. Run `actions/setup-python` (with fix 1)
+   before creating the venv.
+
 ## Things the transform does NOT do (warn / manual)
 
 - **Matrix `runs-on`** (`${{ matrix.os }}`): a job may intentionally target
