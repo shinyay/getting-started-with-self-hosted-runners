@@ -31,6 +31,7 @@ This document tracks which ACI containers are running self-hosted runners and wh
 | `ghrunner-aci-13` | [knowlege-base-spring-boot](https://github.com/shinyay/knowlege-base-spring-boot) (private) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.5) |
 | `ghrunner-aci-14` | [getting-started-with-copilot-app](https://github.com/shinyay/getting-started-with-copilot-app) | `azure,linux,x64,aci` | 2 | 4 GB | ✅ Online (RUNNER_TOKEN, restart=Never, v0.6.5) |
 | `ghrunner-aci-15` | [aks-latest-features-lab](https://github.com/shinyay/aks-latest-features-lab) (private) | `azure,linux,x64,aci` | 1 | 2 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.5) |
+| `ghrunner-aci-16` | [audio-studio](https://github.com/shinyay/audio-studio) (private) | `azure,linux,x64,aci` | 1 | 2 GB | ✅ Online (ephemeral, GH_PAT, restart=Always, v0.6.5) |
 
 ## Azure Resources
 
@@ -118,7 +119,7 @@ az container create \
 ```
 
 > [!IMPORTANT]
-> Replace `YOUR-REPO` with the repository name and `NN` with the next available number (e.g., `16`, since `ghrunner-aci-15` is now serving `aks-latest-features-lab`).
+> Replace `YOUR-REPO` with the repository name and `NN` with the next available number (e.g., `17`, since `ghrunner-aci-16` is now serving `audio-studio`).
 
 > [!TIP]
 > **Ephemeral mode (recommended for GitHub Copilot coding agent and any workload sensitive to dirty `_work` state):**
