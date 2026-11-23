@@ -14,6 +14,13 @@ The recurring process for shipping a new `ghrunner` ACI runner image. Scripted b
    az acr build -r shinyayacr202604 -t ghrunner:v0.6.4 -t ghrunner:latest containers/runner
    ```
    (`release-image.sh v0.6.4 --changelog "…" --also-latest` does this.)
+   > Build from a clone on a Linux file system (in WSL, on its own disk rather
+   > than under `/mnt/c`), or give `az acr build` the GitHub commit as the context
+   > (`https://github.com/shinyay/getting-started-with-self-hosted-runners.git#<commit>:containers/runner`).
+   > A Windows clone uploads the files without the execute bit (0666, which the
+   > Dockerfile's `chmod +x` turns into 0777), and one made before
+   > `.gitattributes` was added (even if pulled since) uploads `entrypoint.sh`
+   > with CRLF, so the container exits before it logs anything.
 3. **Changelog** — add a row to the **Image versions** table in
    `docs/runner-registry.md` and move the "(current `latest`)" annotation.
    `update_registry.py` does this; `release-image.sh` shows the diff (you commit).
