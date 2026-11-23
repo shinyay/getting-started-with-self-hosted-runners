@@ -86,6 +86,7 @@ sig() { # id  regex  label
 }
 
 # IMAGE
+sig IMG-RUNNER-STALE 'Successfully replaced the runner'                    'replaced registration + runner < latest -> image with latest runner (A4+A3); first aid: stop, delete registration, start'
 sig IMG-LSB        'lsb_release: command not found|gpg: command not found' 'runner image missing lsb-release/gnupg -> image >= v0.6.2-lsb-fix (A4+A3)'
 sig IMG-CHROMIUM   'libnss3|libgbm1|libasound2'                            'Chromium libs missing -> image >= v0.6.1 (A4+A3)'
 sig IMG-GH         'gh: command not found'                                 'GitHub CLI missing -> image >= v0.5.0 (A4+A3)'
@@ -111,7 +112,7 @@ sig INF-AKS-STOPPED  'no such host'                                       'AKS A
 # Metadata-only hint: job never ran (queued / no runner) -> label/group mismatch.
 if [ "$MODE" != "stdin" ] && [ ! -s "$BUF" ]; then
   if printf '%s' "${RUN_STATUS}" | grep -qi 'queued' || [ -z "$RUNNER" ]; then
-    printf '  [%-22s] %s\n' "CFG-LABEL" 'no failed logs and run not picked up -> runs-on vs runner labels (docs/15); also check CFG-RUNNER-GROUP'
+    printf '  [%-22s] %s\n' "CFG-LABEL" 'no failed logs and run not picked up -> runs-on vs runner labels (docs/15); also check CFG-RUNNER-GROUP; if a matching runner sits online/idle, pipe its container log to --stdin (IMG-RUNNER-STALE)'
     matches=$((matches+1))
   fi
 fi

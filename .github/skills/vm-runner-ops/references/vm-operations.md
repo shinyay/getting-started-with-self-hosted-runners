@@ -30,7 +30,7 @@ service**. This happens **after** the deployment returns, so the runner appears
 online a few minutes later.
 
 > [!NOTE]
-> The cloud-init pins runner **2.321.0** (older than the ACI image's 2.333.1).
+> The cloud-init pins runner **2.321.0** (older than the ACI image's 2.338.2).
 > A plain workflow runs fine; actions needing node24 (e.g. `actions/checkout@v5`)
 > may require bumping `RUNNER_VERSION` in `scripts/vm/cloud-init-runner.yaml`.
 

@@ -62,7 +62,7 @@ jobs:
 |---|---|---|
 | Agent shows "queued" forever | `runs-on` doesn't match any registered runner labels | Match the runner's actual labels (incl. `self-hosted`, `Linux`, `X64` which GitHub auto-attaches) |
 | Agent ignores the file | Filename or job name typo | Must be exactly `copilot-setup-steps.yml` and `copilot-setup-steps` |
-| Job fails on `actions/checkout@v5` with `node24 not found` | Runner version is too old | Bump runner image to `actions/runner ≥ 2.327` (this repo's image is at `2.333.1` since v0.3.0) |
+| Job fails on `actions/checkout@v5` with `node24 not found` | Runner version is too old | Bump runner image to `actions/runner ≥ 2.327` (this repo's image is at `2.338.2` since v0.6.6) |
 
 **Reference:** [Customizing the development environment for Copilot coding agent](https://docs.github.com/copilot/customizing-copilot/customizing-the-development-environment-for-copilot-coding-agent).
 
@@ -172,7 +172,7 @@ This repository operates `ghrunner-aci-07` as a Copilot Coding Agent runner for 
 
 | Setting | Value | Reason |
 |---|---|---|
-| Image | `shinyayacr202604.azurecr.io/ghrunner:latest` (v0.4.0) | Includes runner 2.333.1 (node24-ready) and `libyaml-0-2` |
+| Image | `shinyayacr202604.azurecr.io/ghrunner:latest` (v0.6.6) | Includes runner 2.338.2 (node24-ready) and `libyaml-0-2` |
 | `EPHEMERAL` env | `true` | Requirement #3 |
 | `--restart-policy` | `Always` | So ACI re-creates the container after each ephemeral job |
 | Repo agent firewall | OFF | Requirement #2 |
@@ -218,7 +218,7 @@ The agent firewall is still on. Apply requirement #2.
 <details>
 <summary><strong>The agent's <code>actions/checkout@v5</code> step fails with <code>node24</code> errors</strong></summary>
 
-Your runner binary is older than 2.327. Rebuild your runner image with a newer `RUNNER_VERSION` (this repo pins 2.333.1). See the image history in [`docs/runner-registry.md`](runner-registry.md#image-versions).
+Your runner binary is older than 2.327. Rebuild your runner image with a newer `RUNNER_VERSION` (this repo pins 2.338.2). See the image history in [`docs/runner-registry.md`](runner-registry.md#image-versions).
 </details>
 
 <details>

@@ -118,6 +118,7 @@ it — direct the user to the `ghrunner-ops` operation or doc below.
 | `--latest-failed` finds nothing | No failed runs in recent history; pass an explicit `<repo> <run-id>` |
 | ACI logs not appended | RG unreachable — pass `--subscription <id>` (never `az account set`) |
 | Run stuck `queued`, no logs | Likely `CFG-LABEL` — compare `runs-on` to runner labels |
+| Run stuck `queued`, labels match, ACI runner online/idle | Likely `IMG-RUNNER-STALE` — pipe `az container logs` into `triage.sh --stdin`, then compare `Current runner version` with the latest `actions/runner` release |
 
 ## References
 

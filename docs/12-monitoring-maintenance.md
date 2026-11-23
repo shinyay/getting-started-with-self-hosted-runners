@@ -323,6 +323,7 @@ az aks nodepool upgrade \
 | ARC: CrashLoopBackOff | Bad credentials | `kubectl logs -n arc-systems <pod>` | Recreate GitHub App secret |
 | ARC: Pods pending | No nodes available | `kubectl describe pod <pod>` | Check cluster autoscaler |
 | ACI: Container restart loop | Token expired | `az container logs` | Deploy with fresh token |
+| ACI: Runner online and idle, jobs stay queued | The image's runner is older than the latest release; after a restart the container replaced its old registration and is not given jobs | `az container logs`: `Successfully replaced the runner` and a `Current runner version` older than the [latest release](https://github.com/actions/runner/releases/latest) | Rebuild the image with the latest runner and recreate the container. First aid: stop the container, delete the runner registration, start it |
 
 ### Diagnostic Commands Cheat Sheet
 
