@@ -1,0 +1,5 @@
+# Shell scripts run on Linux (the runner image's entrypoint.sh, the skill
+# scripts). Keep them LF in every checkout: with core.autocrlf=true, Git for
+# Windows writes CRLF, the shebang becomes "#!/bin/bash\r", and the runner
+# container exits before it logs anything.
+*.sh text eol=lf
